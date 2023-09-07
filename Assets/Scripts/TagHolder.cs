@@ -13,4 +13,7 @@ static class TagHolder
     public const string IS_RUNNING = "isRunning";
     public const string IS_SHOOTING = "isShooting";
     public const string IS_DEAD = "isDead";
+    public const string CROSSHAIR_ASSAULT = "Crosshairs/Assault";
+    public const string CROSSHAIR_SHOTGUN = "Crosshairs/Shotgun";
+    public const string CROSSHAIR_PISTOL = "Crosshairs/Pistol";
 }
