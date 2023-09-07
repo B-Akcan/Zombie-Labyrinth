@@ -23,16 +23,20 @@ public class Gun : MonoBehaviour
     IEnumerator coroutine;
     WaitForSeconds reloadDelay = new WaitForSeconds(reloadDuration);
     bool reloading = false;
+    Animator animator;
 
     void Awake()
     {
         assault = transform.Find(ASSAULT).gameObject;
         shotgun = transform.Find(SHOTGUN).gameObject;
         pistol = transform.Find(PISTOL).gameObject;
+
         assaultSound = assault.GetComponent<AudioSource>();
         shotgunSound = shotgun.GetComponent<AudioSource>();
         pistolSound = pistol.GetComponent<AudioSource>();
         reloadSound = GetComponent<AudioSource>();
+
+        animator = transform.parent.gameObject.GetComponent<Animator>();
     }
     
     void Start()
@@ -75,25 +79,36 @@ public class Gun : MonoBehaviour
             if (assaultRounds == 0)
                 UI.SharedInstance.ActivateReloadWarning();
 
-            if (assaultRounds > 0 && Input.GetKey(KeyCode.Mouse0) && Time.time >= elapsedTime)
+            if (assaultRounds > 0 && Input.GetKey(KeyCode.Mouse0))
             {
-                elapsedTime = Time.time + (1f / (float) FireRate.ASSAULT);
+                animator.SetBool(IS_SHOOTING, true);
 
-                assaultRounds--;
-                UI.SharedInstance.SetAmmoCount(assaultRounds);
-
-                muzzleFlash.Play();
-                assaultSound.Play();
-
-                RaycastHit hit;
-                if (Physics.Raycast(bulletSpawnPt.transform.position, Vector3.forward, out hit, Mathf.Infinity))
+                if (Time.time >= elapsedTime)
                 {
+                    elapsedTime = Time.time + (1f / (float) FireRate.ASSAULT);
 
-                }
+                    assaultRounds--;
+                    UI.SharedInstance.SetAmmoCount(assaultRounds);
+
+                    muzzleFlash.Play();
+                    assaultSound.Play();
+
+                    RaycastHit hit;
+                    if (Physics.Raycast(bulletSpawnPt.transform.position, Vector3.forward, out hit, Mathf.Infinity))
+                    {
+
+                    }
+                } 
             }
 
             else if (Input.GetKeyDown(KeyCode.R) && assaultRounds < (int) MagazineSize.ASSAULT)
-                Reload(assault); 
+            {
+                animator.SetBool(IS_SHOOTING, false);
+                Reload(assault);
+            }
+
+            else
+                animator.SetBool(IS_SHOOTING, false);
         }
         
         else if (selectedGun == shotgun)
@@ -101,25 +116,36 @@ public class Gun : MonoBehaviour
             if (shotgunRounds == 0)
                 UI.SharedInstance.ActivateReloadWarning();
 
-            if (shotgunRounds > 0 && Input.GetKeyDown(KeyCode.Mouse0) && Time.time >= elapsedTime)
+            if (shotgunRounds > 0 && Input.GetKeyDown(KeyCode.Mouse0))
             {
-                elapsedTime = Time.time + (1f / (float) FireRate.SHOTGUN);
+                animator.SetBool(IS_SHOOTING, true);
 
-                shotgunRounds--;
-                UI.SharedInstance.SetAmmoCount(shotgunRounds);
-
-                muzzleFlash.Play();
-                shotgunSound.Play();
-
-                RaycastHit hit;
-                if (Physics.Raycast(bulletSpawnPt.transform.position, Vector3.forward, out hit, Mathf.Infinity))
+                if (Time.time >= elapsedTime)
                 {
+                    elapsedTime = Time.time + (1f / (float) FireRate.SHOTGUN);
 
+                    shotgunRounds--;
+                    UI.SharedInstance.SetAmmoCount(shotgunRounds);
+
+                    muzzleFlash.Play();
+                    shotgunSound.Play();
+                    
+                    RaycastHit hit;
+                    if (Physics.Raycast(bulletSpawnPt.transform.position, Vector3.forward, out hit, Mathf.Infinity))
+                    {
+
+                    }
                 }
             }
 
             else if (Input.GetKeyDown(KeyCode.R) && shotgunRounds < (int) MagazineSize.SHOTGUN)
+            {
+                animator.SetBool(IS_SHOOTING, false);
                 Reload(shotgun);
+            }
+
+            else
+                animator.SetBool(IS_SHOOTING, false);
         }
 
         else
@@ -127,25 +153,37 @@ public class Gun : MonoBehaviour
             if (pistolRounds == 0)
                 UI.SharedInstance.ActivateReloadWarning();
 
-            if (pistolRounds > 0 && Input.GetKeyDown(KeyCode.Mouse0) && Time.time >= elapsedTime)
+            if (pistolRounds > 0 && Input.GetKeyDown(KeyCode.Mouse0))
             {
-                elapsedTime = Time.time + (1f / (float) FireRate.PISTOL);
+                animator.SetBool(IS_SHOOTING, true);
 
-                pistolRounds--;
-                UI.SharedInstance.SetAmmoCount(pistolRounds);
-
-                muzzleFlash.Play();
-                pistolSound.Play();
-
-                RaycastHit hit;
-                if (Physics.Raycast(bulletSpawnPt.transform.position, Vector3.forward, out hit, Mathf.Infinity))
+                if (Time.time >= elapsedTime)
                 {
+                    elapsedTime = Time.time + (1f / (float) FireRate.PISTOL);
 
+                    pistolRounds--;
+                    UI.SharedInstance.SetAmmoCount(pistolRounds);
+
+                    muzzleFlash.Play();
+                    pistolSound.Play();
+
+                    RaycastHit hit;
+                    if (Physics.Raycast(bulletSpawnPt.transform.position, Vector3.forward, out hit, Mathf.Infinity))
+                    {
+
+                    }
                 }
             }
         
             else if (Input.GetKeyDown(KeyCode.R) && pistolRounds < (int) MagazineSize.PISTOL)
+            {
+                animator.SetBool(IS_SHOOTING, false);
                 Reload(pistol);
+            }
+
+            else
+                animator.SetBool(IS_SHOOTING, false);
+                
         }
 
     }

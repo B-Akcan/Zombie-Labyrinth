@@ -8,6 +8,12 @@ public class PlayerStats : MonoBehaviour
 {
     int health;
     ulong score;
+    Animator animator;
+
+    void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     public ulong GetScore()
     {
@@ -39,7 +45,8 @@ public class PlayerStats : MonoBehaviour
 
     void Update()
     {
-        health = Mathf.Clamp(health, 0, 100);
-        
+
+        if (health <= 0)
+            animator.SetBool(IS_DEAD, true);
     }
 }

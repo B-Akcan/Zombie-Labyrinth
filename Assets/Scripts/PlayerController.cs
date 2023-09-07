@@ -8,12 +8,17 @@ using UnityEditor;
 
 public class PlayerController : MonoBehaviour
 {
-    [Range(0f, 90f)][SerializeField] float yRotationLimit = 90f;   // Limit for vertical camera rotation
     [Range(1f, 10f)][SerializeField] float mouseSensitivity = 5f;   // Sensitivity of the mouse for camera control
     [SerializeField] InvertCamera invertCam;   // Selected camera inversion option
     Vector2 look;   // Vector to store camera rotation
     Vector3 movement; // Vector to store movement info
     Transform cam;
+    Animator animator;
+
+    void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
     
     void Start()
     {
@@ -56,11 +61,17 @@ public class PlayerController : MonoBehaviour
         cam.localRotation = Quaternion.Euler(look.y * (float) invertCam, cam.rotation.y, cam.rotation.z);
     }
 
-     // Move the player based on player input
+    // Move the player based on player input
     void Move()
     {
         movement.z = Input.GetAxis("Vertical") * speed * Time.deltaTime;
         movement.x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
+
+        if (movement != Vector3.zero)
+            animator.SetBool(IS_RUNNING, true);
+        else
+            animator.SetBool(IS_RUNNING, false);
+
         transform.Translate(movement);
     }
 }

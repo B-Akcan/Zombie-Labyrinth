@@ -10,4 +10,7 @@ static class TagHolder
     public const string AMMO_COUNT = "Ammo/AmmoCount";
     public const string ACTIVE_GUN = "Gun/CurrentGun";
     public const string RELOAD_WARNING = "ReloadWarning";
+    public const string IS_RUNNING = "isRunning";
+    public const string IS_SHOOTING = "isShooting";
+    public const string IS_DEAD = "isDead";
 }
