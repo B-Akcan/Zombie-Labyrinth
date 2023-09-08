@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using static GameParams;
 using static TagHolder;
@@ -10,20 +11,41 @@ public class Gun : MonoBehaviour
     GameObject shotgun;
     GameObject pistol;
     GameObject selectedGun;
+    GameObject bulletSpawnPt_Assault;
+    GameObject bulletSpawnPt_Shotgun;
+    GameObject bulletSpawnPt_Pistol;
     GameObject bulletSpawnPt;
-    float elapsedTime;
+    ParticleSystem muzzleFlash_Assault;
+    ParticleSystem muzzleFlash_Shotgun;
+    ParticleSystem muzzleFlash_Pistol;
     ParticleSystem muzzleFlash;
     AudioSource assaultSound;
     AudioSource shotgunSound;
     AudioSource pistolSound;
+    AudioSource gunSound;
+    [SerializeField] AudioClip assaultReloadSound;
+    [SerializeField] AudioClip shotgunReloadSound;
+    [SerializeField] AudioClip pistolReloadSound;
+    AudioClip reloadSound;
+    [SerializeField] AudioClip assaultFireSound;
+    [SerializeField] AudioClip shotgunFireSound;
+    [SerializeField] AudioClip pistolFireSound;
+    AudioClip fireSound;
     int assaultRounds;
     int shotgunRounds;
     int pistolRounds;
-    AudioSource reloadSound;
+    int currentRounds;
+    int magazineSize;
+    float fireRate;
+    float elapsedTime;
     IEnumerator coroutine;
-    WaitForSeconds reloadDelay = new WaitForSeconds(reloadDuration);
-    bool reloading = false;
+    WaitForSeconds reloadDelayAssault;
+    WaitForSeconds reloadDelayShotgun;
+    WaitForSeconds reloadDelayPistol;
+    WaitForSeconds reloadDelay;
+    bool reloading;
     Animator animator;
+    int range;
 
     void Awake()
     {
@@ -34,13 +56,21 @@ public class Gun : MonoBehaviour
         assaultSound = assault.GetComponent<AudioSource>();
         shotgunSound = shotgun.GetComponent<AudioSource>();
         pistolSound = pistol.GetComponent<AudioSource>();
-        reloadSound = GetComponent<AudioSource>();
+
+        bulletSpawnPt_Assault = assault.transform.Find(BULLET_SPAWN_POINT).gameObject;
+        bulletSpawnPt_Shotgun = shotgun.transform.Find(BULLET_SPAWN_POINT).gameObject;
+        bulletSpawnPt_Pistol = pistol.transform.Find(BULLET_SPAWN_POINT).gameObject;
+
+        muzzleFlash_Assault = bulletSpawnPt_Assault.transform.GetChild(0).GetComponent<ParticleSystem>();
+        muzzleFlash_Shotgun = bulletSpawnPt_Shotgun.transform.GetChild(0).GetComponent<ParticleSystem>();
+        muzzleFlash_Pistol = bulletSpawnPt_Pistol.transform.GetChild(0).GetComponent<ParticleSystem>();
 
         animator = transform.parent.gameObject.GetComponent<Animator>();
     }
     
     void Start()
     {
+        AssignReloadDelays();
         LoadAllWeapons();
         SelectAssault();
     }
@@ -74,128 +104,70 @@ public class Gun : MonoBehaviour
 
     void Fire()
     {
-        if (selectedGun == assault)
+        if (currentRounds > 0 && ((selectedGun == assault) ? Input.GetKey(KeyCode.Mouse0) : Input.GetKeyDown(KeyCode.Mouse0)))
         {
-            if (assaultRounds == 0)
-                UI.SharedInstance.ActivateReloadWarning();
+            animator.SetBool(IS_SHOOTING, true);
 
-            if (assaultRounds > 0 && Input.GetKey(KeyCode.Mouse0))
+            if (Time.time >= elapsedTime)
             {
-                animator.SetBool(IS_SHOOTING, true);
+                elapsedTime = Time.time + (1f / fireRate);
 
-                if (Time.time >= elapsedTime)
+                DecrementRounds();
+
+                muzzleFlash.Play();
+                gunSound.PlayOneShot(fireSound);
+
+                RaycastHit hit;
+                if (Physics.Raycast(bulletSpawnPt.transform.position, Vector3.forward, out hit, range))
                 {
-                    elapsedTime = Time.time + (1f / (float) FireRate.ASSAULT);
 
-                    assaultRounds--;
-                    UI.SharedInstance.SetAmmoCount(assaultRounds);
-
-                    muzzleFlash.Play();
-                    assaultSound.Play();
-
-                    RaycastHit hit;
-                    if (Physics.Raycast(bulletSpawnPt.transform.position, Vector3.forward, out hit, Mathf.Infinity))
-                    {
-
-                    }
-                } 
-            }
-
-            else if (Input.GetKeyDown(KeyCode.R) && assaultRounds < (int) MagazineSize.ASSAULT)
-            {
-                animator.SetBool(IS_SHOOTING, false);
-                Reload(assault);
-            }
-
-            else
-                animator.SetBool(IS_SHOOTING, false);
-        }
-        
-        else if (selectedGun == shotgun)
-        {
-            if (shotgunRounds == 0)
-                UI.SharedInstance.ActivateReloadWarning();
-
-            if (shotgunRounds > 0 && Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                animator.SetBool(IS_SHOOTING, true);
-
-                if (Time.time >= elapsedTime)
-                {
-                    elapsedTime = Time.time + (1f / (float) FireRate.SHOTGUN);
-
-                    shotgunRounds--;
-                    UI.SharedInstance.SetAmmoCount(shotgunRounds);
-
-                    muzzleFlash.Play();
-                    shotgunSound.Play();
-                    
-                    RaycastHit hit;
-                    if (Physics.Raycast(bulletSpawnPt.transform.position, Vector3.forward, out hit, Mathf.Infinity))
-                    {
-
-                    }
                 }
             }
+        }
 
-            else if (Input.GetKeyDown(KeyCode.R) && shotgunRounds < (int) MagazineSize.SHOTGUN)
+        else if (currentRounds < magazineSize)
+        {
+            if (currentRounds == 0)
+                UI.SharedInstance.ActivateReloadWarning();
+
+            if (Input.GetKeyDown(KeyCode.R))
             {
                 animator.SetBool(IS_SHOOTING, false);
-                Reload(shotgun);
+                Reload(selectedGun, reloadDelay);
             }
-
-            else
-                animator.SetBool(IS_SHOOTING, false);
         }
 
         else
-        {
-            if (pistolRounds == 0)
-                UI.SharedInstance.ActivateReloadWarning();
+            animator.SetBool(IS_SHOOTING, false);
+    }
 
-            if (pistolRounds > 0 && Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                animator.SetBool(IS_SHOOTING, true);
-
-                if (Time.time >= elapsedTime)
-                {
-                    elapsedTime = Time.time + (1f / (float) FireRate.PISTOL);
-
-                    pistolRounds--;
-                    UI.SharedInstance.SetAmmoCount(pistolRounds);
-
-                    muzzleFlash.Play();
-                    pistolSound.Play();
-
-                    RaycastHit hit;
-                    if (Physics.Raycast(bulletSpawnPt.transform.position, Vector3.forward, out hit, Mathf.Infinity))
-                    {
-
-                    }
-                }
-            }
-        
-            else if (Input.GetKeyDown(KeyCode.R) && pistolRounds < (int) MagazineSize.PISTOL)
-            {
-                animator.SetBool(IS_SHOOTING, false);
-                Reload(pistol);
-            }
-
-            else
-                animator.SetBool(IS_SHOOTING, false);
-                
-        }
-
+    void AssignReloadDelays()
+    {
+        reloading = false;
+        reloadDelayAssault = new WaitForSeconds(assaultReloadDuration);
+        reloadDelayShotgun = new WaitForSeconds(shotgunReloadDuration);
+        reloadDelayPistol = new WaitForSeconds(pistolReloadDuration);
     }
 
     void SelectAssault()
     {
         selectedGun = assault;
-        bulletSpawnPt = selectedGun.transform.Find(BULLET_SPAWN_POINT).gameObject;
-        muzzleFlash = bulletSpawnPt.transform.GetChild(0).GetComponent<ParticleSystem>();
+        bulletSpawnPt = bulletSpawnPt_Assault;
+        muzzleFlash = muzzleFlash_Assault;
+        range = (int) Range.ASSAULT;
+        gunSound = assaultSound;
+        fireSound = assaultFireSound;
+        reloadSound = assaultReloadSound;
+        fireRate = (float) FireRate.ASSAULT;
+        reloadDelay = reloadDelayAssault;
+        magazineSize = (int) MagazineSize.ASSAULT;
+        currentRounds = assaultRounds;
 
         UI.SharedInstance.SetAmmoCount(assaultRounds);
         UI.SharedInstance.SetActiveGun(assault);
+
+        if (currentRounds > 0)
+            UI.SharedInstance.DeactivateReloadWarning();
 
         assault.SetActive(true);
         shotgun.SetActive(false);
@@ -207,11 +179,22 @@ public class Gun : MonoBehaviour
     void SelectShotgun()
     {
         selectedGun = shotgun;
-        bulletSpawnPt = selectedGun.transform.Find(BULLET_SPAWN_POINT).gameObject;
-        muzzleFlash = bulletSpawnPt.transform.GetChild(0).GetComponent<ParticleSystem>();
+        bulletSpawnPt = bulletSpawnPt_Shotgun;
+        muzzleFlash = muzzleFlash_Shotgun;
+        range = (int) Range.SHOTGUN;
+        gunSound = shotgunSound;
+        fireSound = shotgunFireSound;
+        reloadSound = shotgunReloadSound;
+        fireRate = (float) FireRate.SHOTGUN;
+        reloadDelay = reloadDelayShotgun;
+        magazineSize = (int) MagazineSize.SHOTGUN;
+        currentRounds = shotgunRounds;
 
         UI.SharedInstance.SetAmmoCount(shotgunRounds);
         UI.SharedInstance.SetActiveGun(shotgun);
+
+        if (currentRounds > 0)
+            UI.SharedInstance.DeactivateReloadWarning();
 
         assault.SetActive(false);
         shotgun.SetActive(true);
@@ -223,11 +206,22 @@ public class Gun : MonoBehaviour
     void SelectPistol()
     {
         selectedGun = pistol;
-        bulletSpawnPt = selectedGun.transform.Find(BULLET_SPAWN_POINT).gameObject;
-        muzzleFlash = bulletSpawnPt.transform.GetChild(0).GetComponent<ParticleSystem>();
+        bulletSpawnPt = bulletSpawnPt_Pistol;
+        muzzleFlash = muzzleFlash_Pistol;
+        range = (int) Range.PISTOL;
+        gunSound = pistolSound;
+        fireSound = pistolFireSound;
+        reloadSound = pistolReloadSound;
+        fireRate = (float) FireRate.PISTOL;
+        reloadDelay = reloadDelayPistol;
+        magazineSize = (int) MagazineSize.PISTOL;
+        currentRounds = pistolRounds;
 
         UI.SharedInstance.SetAmmoCount(pistolRounds);
         UI.SharedInstance.SetActiveGun(pistol);
+
+        if (currentRounds > 0)
+            UI.SharedInstance.DeactivateReloadWarning();
 
         assault.SetActive(false);
         shotgun.SetActive(false);
@@ -236,15 +230,39 @@ public class Gun : MonoBehaviour
         elapsedTime = 0f;
     }
 
-    void Reload(GameObject gun)
+    void DecrementRounds()
+    {
+        currentRounds--;
+
+        if (selectedGun == assault)
+        {
+            assaultRounds--;
+            UI.SharedInstance.SetAmmoCount(assaultRounds);
+        }
+
+        else if (selectedGun == shotgun)
+        {
+            shotgunRounds--;
+            UI.SharedInstance.SetAmmoCount(shotgunRounds);
+        }
+
+        else if (selectedGun == pistol)
+        {
+            pistolRounds--;
+            UI.SharedInstance.SetAmmoCount(pistolRounds);
+        }
+        
+    }
+
+    void Reload(GameObject gun, WaitForSeconds reloadDelay)
     {
         reloading = true;
 
-        reloadSound.Play();
+        gunSound.PlayOneShot(reloadSound);
 
         UI.SharedInstance.DeactivateReloadWarning();
 
-        coroutine = WaitReload(gun);
+        coroutine = WaitReload(gun, reloadDelay);
         StartCoroutine(coroutine);
     }
 
@@ -255,24 +273,29 @@ public class Gun : MonoBehaviour
         pistolRounds = (int) MagazineSize.PISTOL;
     }
 
-    IEnumerator WaitReload(GameObject gun)
+    IEnumerator WaitReload(GameObject gun, WaitForSeconds reloadDelay)
     {
         yield return reloadDelay;
+
+        gunSound.Stop();
 
         if (gun == assault)
         {
             assaultRounds = (int) MagazineSize.ASSAULT;
             UI.SharedInstance.SetAmmoCount(assaultRounds);
+            currentRounds = assaultRounds;
         }
         else if (gun == shotgun)
         {
             shotgunRounds = (int) MagazineSize.SHOTGUN;
             UI.SharedInstance.SetAmmoCount(shotgunRounds);
+            currentRounds = shotgunRounds;
         }
         else if (gun == pistol)
         {
             pistolRounds = (int) MagazineSize.PISTOL;
             UI.SharedInstance.SetAmmoCount(pistolRounds);
+            currentRounds = pistolRounds;
         }
 
         reloading = false;

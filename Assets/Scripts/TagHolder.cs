@@ -16,4 +16,5 @@ static class TagHolder
     public const string CROSSHAIR_ASSAULT = "Crosshairs/Assault";
     public const string CROSSHAIR_SHOTGUN = "Crosshairs/Shotgun";
     public const string CROSSHAIR_PISTOL = "Crosshairs/Pistol";
+    public const string ENEMY = "Enemy";
 }
