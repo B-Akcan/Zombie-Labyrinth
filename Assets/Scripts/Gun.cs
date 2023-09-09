@@ -32,7 +32,6 @@ public class Gun : MonoBehaviour
     int shotgunRounds;
     int pistolRounds;
     int currentRounds;
-    int magazineSize;
     float fireRate;
     float elapsedTime;
     IEnumerator coroutine;
@@ -75,7 +74,7 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        if (!reloading)
+        if (!reloading && !PlayerStats.SharedInstance.playerIsDead)
         {
             GunSelect();
             Fire();
@@ -133,20 +132,16 @@ public class Gun : MonoBehaviour
             }
         }
 
-        else if (currentRounds < magazineSize)
+        else
         {
+            animator.SetBool(IS_SHOOTING, false);
+
             if (currentRounds == 0)
                 UI.SharedInstance.ActivateReloadWarning();
 
             if (Input.GetKeyDown(KeyCode.R))
-            {
-                animator.SetBool(IS_SHOOTING, false);
                 Reload(selectedGun, reloadDelay);
-            }
         }
-
-        else
-            animator.SetBool(IS_SHOOTING, false);
     }
 
     void AssignReloadDelays()
@@ -167,7 +162,6 @@ public class Gun : MonoBehaviour
         reloadSound = assaultReloadSound;
         fireRate = (float) FireRate.ASSAULT;
         reloadDelay = reloadDelayAssault;
-        magazineSize = (int) MagazineSize.ASSAULT;
         currentRounds = assaultRounds;
         damage = (int) Damage.ASSAULT;
 
@@ -194,7 +188,6 @@ public class Gun : MonoBehaviour
         reloadSound = shotgunReloadSound;
         fireRate = (float) FireRate.SHOTGUN;
         reloadDelay = reloadDelayShotgun;
-        magazineSize = (int) MagazineSize.SHOTGUN;
         currentRounds = shotgunRounds;
         damage = (int) Damage.SHOTGUN;
 
@@ -221,7 +214,6 @@ public class Gun : MonoBehaviour
         reloadSound = pistolReloadSound;
         fireRate = (float) FireRate.PISTOL;
         reloadDelay = reloadDelayPistol;
-        magazineSize = (int) MagazineSize.PISTOL;
         currentRounds = pistolRounds;
         damage = (int) Damage.PISTOL;
 

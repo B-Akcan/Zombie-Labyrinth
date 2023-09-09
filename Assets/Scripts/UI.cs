@@ -6,6 +6,7 @@ using static TagHolder;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 public class UI : MonoBehaviour
 {
@@ -14,23 +15,57 @@ public class UI : MonoBehaviour
     TMP_Text scoreCount;
     TMP_Text ammoCount;
     TMP_Text activeGun;
-    GameObject reloadWarning;
     GameObject crosshair_aslt;
     GameObject crosshair_shtg;
     GameObject crosshair_pstl;
+    GameObject health;
+    GameObject score;
+    Vector3 scorePositionInGame;
+    Vector3 scorePositionEndGame;
+    RectTransform scorePosition;
+    GameObject ammo;
+    GameObject gun;
+    GameObject crosshairs;
+    GameObject reloadWarning;
+    GameObject endGame;
 
     void Awake()
     {
         SharedInstance = this;
 
-        healthBar = transform.Find(HEALTH_BAR).gameObject.GetComponent<Image>();
-        scoreCount = transform.Find(SCORE_COUNT).gameObject.GetComponent<TMP_Text>();
-        ammoCount = transform.Find(AMMO_COUNT).gameObject.GetComponent<TMP_Text>();
-        activeGun = transform.Find(ACTIVE_GUN).gameObject.GetComponent<TMP_Text>();
+        health = transform.Find(HEALTH).gameObject;
+        score = transform.Find(SCORE).gameObject;
+        ammo = transform.Find(AMMO).gameObject;
+        gun = transform.Find(GUN).gameObject;
+        crosshairs = transform.Find(CROSSHAIRS).gameObject;
         reloadWarning = transform.Find(RELOAD_WARNING).gameObject;
-        crosshair_aslt = transform.Find(CROSSHAIR_ASSAULT).gameObject;
-        crosshair_shtg = transform.Find(CROSSHAIR_SHOTGUN).gameObject;
-        crosshair_pstl = transform.Find(CROSSHAIR_PISTOL).gameObject;
+        endGame = transform.Find(END_GAME).gameObject;
+
+        healthBar = health.transform.Find(HEALTH_BAR).gameObject.GetComponent<Image>();
+        scoreCount = score.transform.Find(SCORE_COUNT).gameObject.GetComponent<TMP_Text>();
+        ammoCount = ammo.transform.Find(AMMO_COUNT).gameObject.GetComponent<TMP_Text>();
+        activeGun = gun.transform.Find(ACTIVE_GUN).gameObject.GetComponent<TMP_Text>();
+        
+        crosshair_aslt = crosshairs.transform.Find(CROSSHAIR_ASSAULT).gameObject;
+        crosshair_shtg = crosshairs.transform.Find(CROSSHAIR_SHOTGUN).gameObject;
+        crosshair_pstl = crosshairs.transform.Find(CROSSHAIR_PISTOL).gameObject;
+
+        scorePosition = score.GetComponent<RectTransform>();
+    }
+
+    void Start()
+    {
+        scorePositionInGame = new Vector3(-467, 217, 0);
+        scorePositionEndGame = new Vector3(47, -15, 0);
+        scorePosition.anchoredPosition = scorePositionInGame;
+
+        health.SetActive(true);
+        score.SetActive(true);
+        ammo.SetActive(true);
+        gun.SetActive(true);
+        crosshairs.SetActive(true);
+        reloadWarning.SetActive(false);
+        endGame.SetActive(false);
     }
 
     public void SetHealthBar(int health)
@@ -38,7 +73,7 @@ public class UI : MonoBehaviour
         healthBar.fillAmount = health / 100f;
     }
 
-    public void SetScoreCount(ulong score)
+    public void SetScoreCount(uint score)
     {
         scoreCount.text = score.ToString();
     }
@@ -86,5 +121,23 @@ public class UI : MonoBehaviour
     public void DeactivateReloadWarning()
     {
         reloadWarning.SetActive(false);
+    }
+
+    public void ActivateEndGameUI()
+    {
+        health.SetActive(false);
+        score.SetActive(true);
+        ammo.SetActive(false);
+        gun.SetActive(false);
+        crosshairs.SetActive(false);
+        reloadWarning.SetActive(false);
+        endGame.SetActive(true);
+
+        scorePosition.anchoredPosition = scorePositionEndGame;
+    }
+
+    public void PlayAgain()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

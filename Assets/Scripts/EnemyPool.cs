@@ -43,7 +43,8 @@ public class EnemyPool : MonoBehaviour
 
     void Update()
     {
-        Spawn();
+        if (!PlayerStats.SharedInstance.playerIsDead)
+            Spawn();
     }
 
     void Spawn()

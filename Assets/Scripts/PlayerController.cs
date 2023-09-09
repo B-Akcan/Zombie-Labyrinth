@@ -17,25 +17,23 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
+        cam = transform.Find("MainCamera");
         animator = GetComponent<Animator>();
     }
     
     void Start()
     {
-        cam = transform.Find("MainCamera");
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
     {
-        // Check if the cursor should be locked or unlocked
-        CursorLockUnlock();
-
-        // control the camera
-        CameraControl();
-
-        // Move the player
-        Move();
+        if (!PlayerStats.SharedInstance.playerIsDead)
+        {
+            CursorLockUnlock();
+            CameraControl();
+            Move();
+        }
     }
 
     // Check if the cursor should be locked or unlocked based on player input

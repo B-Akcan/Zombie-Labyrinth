@@ -8,8 +8,9 @@ public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats SharedInstance;
     int health;
-    ulong score;
+    uint score;
     Animator animator;
+    public bool playerIsDead;
 
     void Awake()
     {
@@ -18,12 +19,12 @@ public class PlayerStats : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public ulong GetScore()
+    public uint GetScore()
     {
         return score;
     }
 
-    public void SetScore(ulong sc)
+    public void SetScore(uint sc)
     {
         score = sc;
     }
@@ -34,12 +35,8 @@ public class PlayerStats : MonoBehaviour
         score = 0;
         UI.SharedInstance.SetScoreCount(score);
         UI.SharedInstance.SetHealthBar(health);
-    }
 
-    void Update()
-    {
-        if (health <= 0)
-            animator.SetBool(IS_DEAD, true);
+        playerIsDead = false;
     }
 
     public void IncrementScore()
@@ -60,6 +57,9 @@ public class PlayerStats : MonoBehaviour
 
     void Die()
     {
-        
+        animator.SetBool(IS_DEAD, true);
+        playerIsDead = true;
+        Cursor.lockState = CursorLockMode.None;
+        UI.SharedInstance.ActivateEndGameUI();
     }
 }

@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (canMove)
+        if (canMove && !PlayerStats.SharedInstance.playerIsDead)
             Move();
     }
 
