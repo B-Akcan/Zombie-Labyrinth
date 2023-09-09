@@ -43,6 +43,7 @@ public class PlayerStats : MonoBehaviour
     {
         score++;
         UI.SharedInstance.SetScoreCount(score);
+        EnemyPool.SharedInstance.AdjustEnemySpawnTimer();
     }
 
     public void TakeDamage(int damage)

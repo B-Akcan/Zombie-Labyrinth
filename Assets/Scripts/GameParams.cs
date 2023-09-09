@@ -12,13 +12,18 @@ static class GameParams
     public enum FireRate {ASSAULT = 10, SHOTGUN = 1, PISTOL = 10};
     public enum MagazineSize {ASSAULT = 30, SHOTGUN = 6, PISTOL = 7};
     public enum Range {ASSAULT = 25, SHOTGUN = 7, PISTOL = 15};
-    public enum Damage {ASSAULT = 25, SHOTGUN = 100, PISTOL = 17};
+    public enum Damage {ASSAULT = 20, SHOTGUN = 100, PISTOL = 17};
     public const float assaultReloadDuration = 2.978f;
     public const float shotgunReloadDuration = 4.152f;
     public const float pistolReloadDuration = 1f;
 
     // EnemyPool
     public const int amountToPool = 100;
+    public const float initialEnemySpawnTimer = 5f;
+    public const int scoreMultiplier = 5;
+    public const double difficultyEasy = 0.9;
+    public const double difficultyNormal = 0.7;
+    public const double difficultyHard = 0.5;
 
     // Enemy
     public const float enemySpeed = 3f;

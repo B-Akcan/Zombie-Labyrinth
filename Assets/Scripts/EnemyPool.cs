@@ -14,10 +14,11 @@ public class EnemyPool : MonoBehaviour
                                                    new Vector3(-23,0,23),
                                                    new Vector3(23,0,23)};
     Vector3 spawnPoint;
-    float enemySpawnTimer;
-    float timePassed; // Since last spawn
+    double enemySpawnTimer;
+    double timePassed; // Since last spawn
     int i;
     float z; // z coordinate of player
+    double difficulty;
 
     void Awake()
     {
@@ -36,8 +37,10 @@ public class EnemyPool : MonoBehaviour
             enemies.Add(tmp);
         }
 
+        enemySpawnTimer = initialEnemySpawnTimer;
+        difficulty = difficultyHard;
+
         timePassed = 0f;
-        enemySpawnTimer = 5f;
         i = 0;
     }
 
@@ -83,5 +86,11 @@ public class EnemyPool : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void AdjustEnemySpawnTimer()
+    {
+        if (PlayerStats.SharedInstance.GetScore() % scoreMultiplier == 0)
+            enemySpawnTimer *= difficulty;
     }
 }
