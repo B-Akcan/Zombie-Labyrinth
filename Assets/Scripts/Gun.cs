@@ -19,10 +19,7 @@ public class Gun : MonoBehaviour
     ParticleSystem muzzleFlash_Shotgun;
     ParticleSystem muzzleFlash_Pistol;
     ParticleSystem muzzleFlash;
-    AudioSource assaultSound;
-    AudioSource shotgunSound;
-    AudioSource pistolSound;
-    AudioSource gunSound;
+    AudioSource audioSource;
     [SerializeField] AudioClip assaultReloadSound;
     [SerializeField] AudioClip shotgunReloadSound;
     [SerializeField] AudioClip pistolReloadSound;
@@ -46,6 +43,9 @@ public class Gun : MonoBehaviour
     bool reloading;
     Animator animator;
     int range;
+    int damage;
+    Enemy enemy;
+    GameObject hitObject;
 
     void Awake()
     {
@@ -53,9 +53,7 @@ public class Gun : MonoBehaviour
         shotgun = transform.Find(SHOTGUN).gameObject;
         pistol = transform.Find(PISTOL).gameObject;
 
-        assaultSound = assault.GetComponent<AudioSource>();
-        shotgunSound = shotgun.GetComponent<AudioSource>();
-        pistolSound = pistol.GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
 
         bulletSpawnPt_Assault = assault.transform.Find(BULLET_SPAWN_POINT).gameObject;
         bulletSpawnPt_Shotgun = shotgun.transform.Find(BULLET_SPAWN_POINT).gameObject;
@@ -115,12 +113,22 @@ public class Gun : MonoBehaviour
                 DecrementRounds();
 
                 muzzleFlash.Play();
-                gunSound.PlayOneShot(fireSound);
+                audioSource.PlayOneShot(fireSound);
 
                 RaycastHit hit;
-                if (Physics.Raycast(bulletSpawnPt.transform.position, Vector3.forward, out hit, range))
+                if (Physics.Raycast(bulletSpawnPt.transform.position, bulletSpawnPt.transform.TransformDirection(Vector3.forward), out hit, range))
                 {
+                    hitObject = hit.transform.gameObject;
 
+                    if (hitObject.tag.Equals(ENEMY))
+                    {
+                        enemy = EnemyPool.SharedInstance.GetEnemy(hitObject);
+                        enemy.TakeDamage(damage);
+                    }
+                    else if (hitObject.tag.Equals(ENVIRONMENT))
+                    {
+                       
+                    }
                 }
             }
         }
@@ -155,13 +163,13 @@ public class Gun : MonoBehaviour
         bulletSpawnPt = bulletSpawnPt_Assault;
         muzzleFlash = muzzleFlash_Assault;
         range = (int) Range.ASSAULT;
-        gunSound = assaultSound;
         fireSound = assaultFireSound;
         reloadSound = assaultReloadSound;
         fireRate = (float) FireRate.ASSAULT;
         reloadDelay = reloadDelayAssault;
         magazineSize = (int) MagazineSize.ASSAULT;
         currentRounds = assaultRounds;
+        damage = (int) Damage.ASSAULT;
 
         UI.SharedInstance.SetAmmoCount(assaultRounds);
         UI.SharedInstance.SetActiveGun(assault);
@@ -182,13 +190,13 @@ public class Gun : MonoBehaviour
         bulletSpawnPt = bulletSpawnPt_Shotgun;
         muzzleFlash = muzzleFlash_Shotgun;
         range = (int) Range.SHOTGUN;
-        gunSound = shotgunSound;
         fireSound = shotgunFireSound;
         reloadSound = shotgunReloadSound;
         fireRate = (float) FireRate.SHOTGUN;
         reloadDelay = reloadDelayShotgun;
         magazineSize = (int) MagazineSize.SHOTGUN;
         currentRounds = shotgunRounds;
+        damage = (int) Damage.SHOTGUN;
 
         UI.SharedInstance.SetAmmoCount(shotgunRounds);
         UI.SharedInstance.SetActiveGun(shotgun);
@@ -209,13 +217,13 @@ public class Gun : MonoBehaviour
         bulletSpawnPt = bulletSpawnPt_Pistol;
         muzzleFlash = muzzleFlash_Pistol;
         range = (int) Range.PISTOL;
-        gunSound = pistolSound;
         fireSound = pistolFireSound;
         reloadSound = pistolReloadSound;
         fireRate = (float) FireRate.PISTOL;
         reloadDelay = reloadDelayPistol;
         magazineSize = (int) MagazineSize.PISTOL;
         currentRounds = pistolRounds;
+        damage = (int) Damage.PISTOL;
 
         UI.SharedInstance.SetAmmoCount(pistolRounds);
         UI.SharedInstance.SetActiveGun(pistol);
@@ -258,7 +266,7 @@ public class Gun : MonoBehaviour
     {
         reloading = true;
 
-        gunSound.PlayOneShot(reloadSound);
+        audioSource.PlayOneShot(reloadSound);
 
         UI.SharedInstance.DeactivateReloadWarning();
 
@@ -277,7 +285,7 @@ public class Gun : MonoBehaviour
     {
         yield return reloadDelay;
 
-        gunSound.Stop();
+        audioSource.Stop();
 
         if (gun == assault)
         {

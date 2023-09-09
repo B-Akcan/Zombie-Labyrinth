@@ -1442,6 +1442,8 @@ GameObject:
   - component: {fileID: 4932267959246028}
   - component: {fileID: 95090565265420528}
   - component: {fileID: 4264937142016532911}
+  - component: {fileID: 7985356168560798710}
+  - component: {fileID: -8493613495066676252}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Enemy
@@ -1475,7 +1477,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1352753540370996}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 9000000, guid: 9776c2c565280054689a67587800f1d9, type: 3}
   m_Controller: {fileID: 9100000, guid: 92d9c4b5ab07fb54782fc9d1b6ad4049, type: 2}
   m_CullingMode: 1
@@ -1500,6 +1502,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6e4bad33eb7cd44ca288b7ce8db8585, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &7985356168560798710
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352753540370996}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!54 &-8493613495066676252
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352753540370996}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
 --- !u!1 &1354594622779090
 GameObject:
   m_ObjectHideFlags: 0

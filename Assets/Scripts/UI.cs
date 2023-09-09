@@ -35,7 +35,7 @@ public class UI : MonoBehaviour
 
     public void SetHealthBar(int health)
     {
-        healthBar.fillAmount = health / 100;
+        healthBar.fillAmount = health / 100f;
     }
 
     public void SetScoreCount(ulong score)

@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameParams;
+using static TagHolder;
 
 public class EnemyPool : MonoBehaviour
 {
     public static EnemyPool SharedInstance;
-    public Queue<GameObject> enemies;
-    [SerializeField] GameObject enemyPrefab;
-    public int amountToPool=100;
-    GameObject enemy;
+    List<Enemy> enemies;
+    [SerializeField] Enemy enemyPrefab;
     List<Vector3> spawnPoints = new List<Vector3> {new Vector3(23,0,-23),
                                                    new Vector3(-23,0,-23),
                                                    new Vector3(-23,0,23),
@@ -16,6 +16,8 @@ public class EnemyPool : MonoBehaviour
     Vector3 spawnPoint;
     float enemySpawnTimer;
     float timePassed; // Since last spawn
+    int i;
+    float z; // z coordinate of player
 
     void Awake()
     {
@@ -24,18 +26,19 @@ public class EnemyPool : MonoBehaviour
 
     void Start()
     {
-        enemies = new Queue<GameObject>();
-        GameObject tmp;
+        enemies = new List<Enemy>();
+        Enemy tmp;
         for(int i = 0; i < amountToPool; i++)
         {
             tmp = Instantiate(enemyPrefab);
             tmp.transform.parent = transform;
-            tmp.SetActive(false);
-            enemies.Enqueue(tmp);
+            tmp.gameObject.SetActive(false);
+            enemies.Add(tmp);
         }
 
         timePassed = 0f;
         enemySpawnTimer = 5f;
+        i = 0;
     }
 
     void Update()
@@ -45,20 +48,39 @@ public class EnemyPool : MonoBehaviour
 
     void Spawn()
     {
+        if (enemies[i].gameObject.activeInHierarchy)
+        {
+            if (i+1 == amountToPool)
+                i = 0;
+            else
+                i++;
+        }
+        
         if (Time.time >= timePassed)
         {
-            enemy = enemies.Dequeue();
-            spawnPoint = spawnPoints[Random.Range(0, 4)];
-            enemy.transform.position = spawnPoint;
-            enemy.SetActive(true);
-
             timePassed = Time.time + enemySpawnTimer;
+
+            z = PlayerStats.SharedInstance.gameObject.transform.position.z;
+            if (z <= 0)
+                spawnPoint = spawnPoints[Random.Range(0, 2)];
+            else
+                spawnPoint = spawnPoints[Random.Range(2, 4)];
+
+            enemies[i].transform.position = spawnPoint;
+            enemies[i].gameObject.SetActive(true);
         }
     }
 
-    public void Die(GameObject enemy)
+    public Enemy GetEnemy(GameObject obj)
     {
-        enemy.SetActive(false);
-        enemies.Enqueue(enemy);
+        for (int i=0; i<amountToPool; i++)
+        {
+            if (enemies[i].gameObject == obj)
+            {
+                return enemies[i];
+            }
+        }
+
+        return null;
     }
 }
