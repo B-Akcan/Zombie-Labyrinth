@@ -12,12 +12,15 @@ public class EnemyPool : MonoBehaviour
     List<Vector3> spawnPoints = new List<Vector3> {new Vector3(23,0,-23),
                                                    new Vector3(-23,0,-23),
                                                    new Vector3(-23,0,23),
-                                                   new Vector3(23,0,23)};
+                                                   new Vector3(23,0,23),
+                                                   new Vector3(23, 0, 0),
+                                                   new Vector3(-23, 0, 0),
+                                                   new Vector3(0, 0, 23),
+                                                   new Vector3(0, 0, 0)};
     Vector3 spawnPoint;
     double enemySpawnTimer;
     double timePassed; // Since last spawn
     int i;
-    float z; // z coordinate of player
     double difficulty;
 
     void Awake()
@@ -64,12 +67,7 @@ public class EnemyPool : MonoBehaviour
         {
             timePassed = Time.time + enemySpawnTimer;
 
-            z = PlayerStats.SharedInstance.gameObject.transform.position.z;
-            if (z <= 0)
-                spawnPoint = spawnPoints[Random.Range(0, 2)];
-            else
-                spawnPoint = spawnPoints[Random.Range(2, 4)];
-
+            spawnPoint = spawnPoints[Random.Range(0, 8)];
             enemies[i].transform.position = spawnPoint;
             enemies[i].gameObject.SetActive(true);
         }
