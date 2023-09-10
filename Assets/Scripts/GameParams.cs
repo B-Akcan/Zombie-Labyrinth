@@ -27,8 +27,13 @@ static class GameParams
 
     // Enemy
     public const float enemySpeed = 3f;
+    public const float rotationSpeed = 5f;
     public const float enemyRange = 2f;
     public const float enemyAttackDuration = 2.479f;
+    public const float enemyDieDuration = 2.3f;
     public const int enemyDamage = 20;
+    public const float searchingVolume = 0.05f;
+    public const float attackVolume = 1f;
+    public const float deadVolume = 0.5f;
 
 }

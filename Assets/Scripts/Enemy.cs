@@ -8,15 +8,58 @@ public class Enemy : MonoBehaviour
 {
     int health;
     Vector3 playerPosition;
+    Vector3 relativePosition;
+    Quaternion finalRotation;
     float distance;
     WaitForSeconds attackDelay;
+    WaitForSeconds dieDelay;
     bool canMove;
+    Animator animator;
+    AudioSource audioSource;
+    [SerializeField] AudioClip searching1;
+    WaitForSeconds searching1_length;
+    [SerializeField] AudioClip searching2;
+    WaitForSeconds searching2_length;
+    List<AudioClip> searchingClips;
+    [SerializeField] AudioClip attack1;
+    WaitForSeconds attack1_length;
+    [SerializeField] AudioClip attack2;
+    WaitForSeconds attack2_length;
+    List<AudioClip> attackClips;
+    [SerializeField] AudioClip dead;
+    WaitForSeconds dead_length;
+    AudioClip clip;
+    IEnumerator coroutine;
+    WaitForSeconds soundDelay;
+    float volume;
+    bool canSpeak;
+    bool isAlive;
+    [SerializeField] AnimationClip attackClip;
+    [SerializeField] AnimationClip deathClip;
+
+
+    void Awake()
+    {
+        animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+    }
 
     void Start()
     {
         health = maxHealth;
         attackDelay = new WaitForSeconds(enemyAttackDuration);
+        dieDelay = new WaitForSeconds(enemyDieDuration);
         canMove = true;
+        canSpeak = true;
+        isAlive = true;
+
+        searchingClips = new List<AudioClip> {searching1, searching2};
+        searching1_length = new WaitForSeconds(searching1.length * 2);
+        searching2_length = new WaitForSeconds(searching2.length * 2);
+        attackClips = new List<AudioClip> {attack1, attack2};
+        attack1_length = new WaitForSeconds(attack1.length * 2);
+        attack2_length = new WaitForSeconds(attack2.length * 2);
+        dead_length = new WaitForSeconds(dead.length);
     }
 
     void Update()
@@ -25,25 +68,74 @@ public class Enemy : MonoBehaviour
             Move();
     }
 
-    void Move()
+    void CalculateDistance()
     {
         playerPosition = PlayerStats.SharedInstance.gameObject.transform.position;
-        gameObject.transform.LookAt(playerPosition);
+        distance = Vector3.Distance(playerPosition, transform.position);
+    }
+
+    void RotateToPlayer()
+    {
+        relativePosition = playerPosition - transform.position;
+        finalRotation = Quaternion.LookRotation(relativePosition, Vector3.up);
+        transform.rotation = Quaternion.Slerp(transform.rotation, finalRotation, rotationSpeed * Time.deltaTime);
+    }
+
+    AudioClip PickRandomClip(List<AudioClip> clips)
+    {
+        return clips[Random.Range(0, clips.Count)];
+    }
+
+    void PlayClip(AudioClip clip)
+    {
+        canSpeak = false;
+
+        switch (clip.name)
+        {
+            case "Searching1": soundDelay = searching1_length; volume = searchingVolume; break;
+            case "Searching2": soundDelay = searching2_length; volume = searchingVolume; break;
+            case "Attack1": soundDelay = attack1_length; volume = attackVolume; break;
+            case "Attack2": soundDelay = attack2_length; volume = attackVolume; break;
+            case "Dead": soundDelay = dead_length; volume = deadVolume; break;
+
+            default: break;
+        }
+
+        audioSource.PlayOneShot(clip, volume);
+
+        coroutine = WaitSound(soundDelay);
+        StartCoroutine(coroutine);
+    }
+
+    void Move()
+    {
+        CalculateDistance();
 
         if (canMove)
         {
+            if (canSpeak)
+            {
+                clip = PickRandomClip(searchingClips);
+                PlayClip(clip);
+            }
+
+            RotateToPlayer();
+
+            animator.SetBool(IS_RUNNING, true);
             transform.Translate(Vector3.forward * enemySpeed * Time.deltaTime);
 
-            distance = Vector3.Distance(playerPosition, transform.position);
-    
             if (distance <= enemyRange)
                 Attack();
         }
-            
     }
 
     void Attack()
     {
+        audioSource.Stop();
+        clip = PickRandomClip(attackClips);
+        PlayClip(clip);
+
+        animator.SetBool(IS_RUNNING, false);
         canMove = false;
         PlayerStats.SharedInstance.TakeDamage(enemyDamage);
         StartCoroutine(WaitAttack());
@@ -51,25 +143,50 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        health -= damage;
-        health = Mathf.Clamp(health, 0, 100);
+        if (isAlive)
+        {
+            health -= damage;
+            health = Mathf.Clamp(health, 0, 100);
 
-        if (health == 0)
-            Die();
+            if (health == 0)
+                Die();
+        }
     }
 
     void Die()
     {
-        gameObject.SetActive(false);
-        health = maxHealth;
-
+        isAlive = false;
+        canMove = false;
+        animator.SetBool(IS_DEAD, true);
+        PlayClip(dead);
         PlayerStats.SharedInstance.IncrementScore();
+
+        StartCoroutine(WaitDie());
     }
 
     IEnumerator WaitAttack()
     {
         yield return attackDelay;
 
+        if (isAlive)
+            canMove = true;
+    }
+
+    IEnumerator WaitDie()
+    {
+        yield return dieDelay;
+
+        gameObject.SetActive(false);
+        health = maxHealth;
         canMove = true;
+        canSpeak = true;
+        isAlive = true;
+    }
+
+    IEnumerator WaitSound(WaitForSeconds delay)
+    {
+        yield return delay;
+
+        canSpeak = true;
     }
 }
