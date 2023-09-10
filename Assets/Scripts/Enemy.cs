@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using static GameParams;
 using static TagHolder;
 
@@ -11,6 +12,7 @@ public class Enemy : MonoBehaviour
     Vector3 relativePosition;
     Quaternion finalRotation;
     float distance;
+    CharacterController controller;
     WaitForSeconds attackDelay;
     WaitForSeconds dieDelay;
     bool canMove;
@@ -42,6 +44,7 @@ public class Enemy : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        controller = GetComponent<CharacterController>();
     }
 
     void Start()
@@ -62,7 +65,7 @@ public class Enemy : MonoBehaviour
         dead_length = new WaitForSeconds(dead.length);
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (!PlayerStats.SharedInstance.PlayerIsDead())
             Move();
@@ -122,7 +125,7 @@ public class Enemy : MonoBehaviour
             RotateToPlayer();
 
             animator.SetBool(IS_RUNNING, true);
-            transform.Translate(Vector3.forward * enemySpeed * Time.deltaTime);
+            controller.Move(transform.forward * enemySpeed * Time.deltaTime);
 
             if (distance <= enemyRange)
                 Attack();

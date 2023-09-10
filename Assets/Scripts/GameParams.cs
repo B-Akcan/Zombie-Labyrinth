@@ -2,7 +2,7 @@ static class GameParams
 {
     // PlayerController
     public enum InvertCamera {NORMAL=-1, INVERTED=1};
-    public const float speed = 3f;
+    public const float speed = 7f;
     public const float yRotationLimit = 60f;
 
     // PlayerStats
@@ -26,7 +26,7 @@ static class GameParams
     public const double difficultyHard = 0.5;
 
     // Enemy
-    public const float enemySpeed = 2f;
+    public const float enemySpeed = 3f;
     public const float rotationSpeed = 5f;
     public const float enemyRange = 1f;
     public const float enemyAttackDuration = 2.479f;

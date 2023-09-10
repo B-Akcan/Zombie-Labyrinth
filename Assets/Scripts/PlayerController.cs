@@ -8,29 +8,32 @@ using UnityEditor;
 
 public class PlayerController : MonoBehaviour
 {
-    [Range(1f, 10f)][SerializeField] float mouseSensitivity = 5f;   // Sensitivity of the mouse for camera control
+    [Range(1f, 20f)][SerializeField] float mouseSensitivity = 5f;   // Sensitivity of the mouse for camera control
     [SerializeField] InvertCamera invertCam;   // Selected camera inversion option
     Vector2 look;   // Vector to store camera rotation
-    Vector3 movement; // Vector to store movement info
+    Vector3 input;
     Transform cam;
     Animator animator;
     AudioSource audioSource;
     bool isPlayingSound;
+    CharacterController controller;
 
     void Awake()
     {
         cam = transform.Find("MainCamera");
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        controller = GetComponent<CharacterController>();
     }
     
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         isPlayingSound = false;
+        input = new Vector3();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (!PlayerStats.SharedInstance.PlayerIsDead())
         {
@@ -66,10 +69,11 @@ public class PlayerController : MonoBehaviour
     // Move the player based on player input
     void Move()
     {
-        movement.z = Input.GetAxis("Vertical") * speed * Time.deltaTime;
-        movement.x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
+        input = Vector3.zero;
+        input += transform.forward * Input.GetAxis("Vertical");
+        input += transform.right * Input.GetAxis("Horizontal");
 
-        if (movement != Vector3.zero)
+        if (input != Vector3.zero)
         {
             animator.SetBool(IS_RUNNING, true);
             
@@ -84,6 +88,6 @@ public class PlayerController : MonoBehaviour
             isPlayingSound = false;
         }
 
-        transform.Translate(movement);
+        controller.Move(input * speed * Time.deltaTime);
     }
 }
