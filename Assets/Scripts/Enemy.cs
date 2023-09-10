@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (canMove && !PlayerStats.SharedInstance.playerIsDead)
+        if (!PlayerStats.SharedInstance.PlayerIsDead())
             Move();
     }
 
@@ -30,12 +30,16 @@ public class Enemy : MonoBehaviour
         playerPosition = PlayerStats.SharedInstance.gameObject.transform.position;
         gameObject.transform.LookAt(playerPosition);
 
-        transform.Translate(Vector3.forward * enemySpeed * Time.deltaTime);
+        if (canMove)
+        {
+            transform.Translate(Vector3.forward * enemySpeed * Time.deltaTime);
 
-        distance = Vector3.Distance(playerPosition, transform.position);
-
-        if (distance <= enemyRange)
-            Attack();
+            distance = Vector3.Distance(playerPosition, transform.position);
+    
+            if (distance <= enemyRange)
+                Attack();
+        }
+            
     }
 
     void Attack()

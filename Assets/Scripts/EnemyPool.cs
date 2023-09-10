@@ -38,7 +38,7 @@ public class EnemyPool : MonoBehaviour
         }
 
         enemySpawnTimer = initialEnemySpawnTimer;
-        difficulty = difficultyHard;
+        difficulty = difficultyNormal;
 
         timePassed = 0f;
         i = 0;
@@ -46,7 +46,7 @@ public class EnemyPool : MonoBehaviour
 
     void Update()
     {
-        if (!PlayerStats.SharedInstance.playerIsDead)
+        if (!PlayerStats.SharedInstance.PlayerIsDead())
             Spawn();
     }
 

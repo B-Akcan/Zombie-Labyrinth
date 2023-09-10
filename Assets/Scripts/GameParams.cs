@@ -2,7 +2,7 @@ static class GameParams
 {
     // PlayerController
     public enum InvertCamera {NORMAL=-1, INVERTED=1};
-    public const float speed = 5f;
+    public const float speed = 7f;
     public const float yRotationLimit = 60f;
 
     // PlayerStats

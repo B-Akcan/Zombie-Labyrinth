@@ -10,13 +10,11 @@ public class PlayerStats : MonoBehaviour
     int health;
     uint score;
     Animator animator;
-    public bool playerIsDead;
+    bool isDead;
 
-    void Awake()
+    public bool PlayerIsDead()
     {
-        SharedInstance = this;
-
-        animator = GetComponent<Animator>();
+        return isDead;
     }
 
     public uint GetScore()
@@ -28,6 +26,13 @@ public class PlayerStats : MonoBehaviour
     {
         score = sc;
     }
+
+    void Awake()
+    {
+        SharedInstance = this;
+
+        animator = GetComponent<Animator>();
+    }
     
     void Start()
     {
@@ -36,7 +41,7 @@ public class PlayerStats : MonoBehaviour
         UI.SharedInstance.SetScoreCount(score);
         UI.SharedInstance.SetHealthBar(health);
 
-        playerIsDead = false;
+        isDead = false;
     }
 
     public void IncrementScore()
@@ -59,7 +64,7 @@ public class PlayerStats : MonoBehaviour
     void Die()
     {
         animator.SetBool(IS_DEAD, true);
-        playerIsDead = true;
+        isDead = true;
         Cursor.lockState = CursorLockMode.None;
         UI.SharedInstance.ActivateEndGameUI();
     }

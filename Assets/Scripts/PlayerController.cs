@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!PlayerStats.SharedInstance.playerIsDead)
+        if (!PlayerStats.SharedInstance.PlayerIsDead())
         {
             CursorLockUnlock();
             CameraControl();

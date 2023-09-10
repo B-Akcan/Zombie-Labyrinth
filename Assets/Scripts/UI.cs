@@ -55,7 +55,7 @@ public class UI : MonoBehaviour
 
     void Start()
     {
-        scorePositionInGame = new Vector3(-467, 217, 0);
+        scorePositionInGame = new Vector3(-415, 217, 0);
         scorePositionEndGame = new Vector3(47, -15, 0);
         scorePosition.anchoredPosition = scorePositionInGame;
 
