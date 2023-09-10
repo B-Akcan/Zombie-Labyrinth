@@ -14,16 +14,20 @@ public class PlayerController : MonoBehaviour
     Vector3 movement; // Vector to store movement info
     Transform cam;
     Animator animator;
+    AudioSource audioSource;
+    bool isPlayingSound;
 
     void Awake()
     {
         cam = transform.Find("MainCamera");
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
     
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        isPlayingSound = false;
     }
 
     void Update()
@@ -66,9 +70,19 @@ public class PlayerController : MonoBehaviour
         movement.x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
 
         if (movement != Vector3.zero)
+        {
             animator.SetBool(IS_RUNNING, true);
+            
+            if (!isPlayingSound)
+                audioSource.Play();
+            isPlayingSound = true;
+        }
         else
+        {
             animator.SetBool(IS_RUNNING, false);
+            audioSource.Stop();
+            isPlayingSound = false;
+        }
 
         transform.Translate(movement);
     }
