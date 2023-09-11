@@ -5010,9 +5010,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   assaultReloadSound: {fileID: 8300000, guid: 3c5c1d4d7b9307c458890a4beb12e4ae, type: 3}
   shotgunReloadSound: {fileID: 8300000, guid: 72c99af78fdf2884ab8eb5be9c732aca, type: 3}
-  pistolReloadSound: {fileID: 8300000, guid: 3c5c1d4d7b9307c458890a4beb12e4ae, type: 3}
+  pistolReloadSound: {fileID: 8300000, guid: 7df7fc700ff549646b51518b6616cb49, type: 3}
   assaultFireSound: {fileID: 8300000, guid: d1ec051a09bf5284abf2c2a7d0475293, type: 3}
-  shotgunFireSound: {fileID: 8300000, guid: 3f23f80b3d729204f8ff9c2628f02b9e, type: 3}
+  shotgunFireSound: {fileID: 8300000, guid: 645b4c10032b0764ab72e8dd23eae8eb, type: 3}
   pistolFireSound: {fileID: 8300000, guid: 8602b7d5cd15c1943a50aa53f171c8cf, type: 3}
 --- !u!82 &963194230
 AudioSource:

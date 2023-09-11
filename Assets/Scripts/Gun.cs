@@ -153,7 +153,7 @@ public class Gun : MonoBehaviour
         range = (int) Range.ASSAULT;
         fireSound = assaultFireSound;
         reloadSound = assaultReloadSound;
-        fireRate = (float) FireRate.ASSAULT;
+        fireRate = assaultFireRate;
         reloadDelay = reloadDelayAssault;
         currentRounds = assaultRounds;
         damage = (int) Damage.ASSAULT;
@@ -179,7 +179,7 @@ public class Gun : MonoBehaviour
         range = (int) Range.SHOTGUN;
         fireSound = shotgunFireSound;
         reloadSound = shotgunReloadSound;
-        fireRate = (float) FireRate.SHOTGUN;
+        fireRate = shotgunFireRate;
         reloadDelay = reloadDelayShotgun;
         currentRounds = shotgunRounds;
         damage = (int) Damage.SHOTGUN;
@@ -205,7 +205,7 @@ public class Gun : MonoBehaviour
         range = (int) Range.PISTOL;
         fireSound = pistolFireSound;
         reloadSound = pistolReloadSound;
-        fireRate = (float) FireRate.PISTOL;
+        fireRate = pistolFireRate;
         reloadDelay = reloadDelayPistol;
         currentRounds = pistolRounds;
         damage = (int) Damage.PISTOL;
