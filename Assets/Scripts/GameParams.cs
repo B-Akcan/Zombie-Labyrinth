@@ -17,7 +17,7 @@ static class GameParams
     public enum Damage {ASSAULT = 20, SHOTGUN = 100, PISTOL = 17};
     public const float assaultReloadDuration = 3f;
     public const float shotgunReloadDuration = 4.3f;
-    public const float pistolReloadDuration = 1f;
+    public const float pistolReloadDuration = 1.7f;
 
     // EnemyPool
     public const int amountToPool = 100;

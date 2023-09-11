@@ -32,6 +32,7 @@ public class Gun : MonoBehaviour
     int shotgunRounds;
     int pistolRounds;
     int currentRounds;
+    int magazineSize;
     float fireRate;
     float elapsedTime;
     IEnumerator coroutine;
@@ -132,7 +133,7 @@ public class Gun : MonoBehaviour
             if (currentRounds == 0)
                 UI.SharedInstance.ActivateReloadWarning();
 
-            if (Input.GetKeyDown(KeyCode.R))
+            if (currentRounds < magazineSize && Input.GetKeyDown(KeyCode.R))
                 Reload(selectedGun, reloadDelay);
         }
     }
@@ -157,6 +158,7 @@ public class Gun : MonoBehaviour
         reloadDelay = reloadDelayAssault;
         currentRounds = assaultRounds;
         damage = (int) Damage.ASSAULT;
+        magazineSize = (int) MagazineSize.ASSAULT;
 
         UI.SharedInstance.SetAmmoCount(assaultRounds);
         UI.SharedInstance.SetActiveGun(assault);
@@ -183,6 +185,7 @@ public class Gun : MonoBehaviour
         reloadDelay = reloadDelayShotgun;
         currentRounds = shotgunRounds;
         damage = (int) Damage.SHOTGUN;
+        magazineSize = (int) MagazineSize.SHOTGUN;
 
         UI.SharedInstance.SetAmmoCount(shotgunRounds);
         UI.SharedInstance.SetActiveGun(shotgun);
@@ -209,6 +212,7 @@ public class Gun : MonoBehaviour
         reloadDelay = reloadDelayPistol;
         currentRounds = pistolRounds;
         damage = (int) Damage.PISTOL;
+        magazineSize = (int) MagazineSize.PISTOL;
 
         UI.SharedInstance.SetAmmoCount(pistolRounds);
         UI.SharedInstance.SetActiveGun(pistol);
