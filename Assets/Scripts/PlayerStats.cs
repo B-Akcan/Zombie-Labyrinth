@@ -66,6 +66,7 @@ public class PlayerStats : MonoBehaviour
         animator.SetBool(IS_DEAD, true);
         isDead = true;
         Cursor.lockState = CursorLockMode.None;
+        PlayerController.SharedInstance.StopAllSounds();
         UI.SharedInstance.ActivateEndGameUI();
     }
 }

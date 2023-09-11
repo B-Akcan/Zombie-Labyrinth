@@ -56,7 +56,7 @@ public class UI : MonoBehaviour
     void Start()
     {
         scorePositionInGame = new Vector3(-789, 421, 0);
-        scorePositionEndGame = new Vector3(45, -10, 0);
+        scorePositionEndGame = new Vector3(44, -10, 0);
         scorePosition.anchoredPosition = scorePositionInGame;
 
         health.SetActive(true);

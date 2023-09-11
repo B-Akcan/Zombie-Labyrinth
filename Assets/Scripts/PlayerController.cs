@@ -8,6 +8,7 @@ using UnityEditor;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController SharedInstance;
     [Range(1f, 20f)][SerializeField] float mouseSensitivity = 5f;   // Sensitivity of the mouse for camera control
     [SerializeField] InvertCamera invertCam;   // Selected camera inversion option
     Vector2 look;   // Vector to store camera rotation
@@ -20,6 +21,8 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
+        SharedInstance = this;
+
         cam = transform.Find("MainCamera");
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
@@ -89,5 +92,10 @@ public class PlayerController : MonoBehaviour
         }
 
         controller.Move(input * speed * Time.deltaTime);
+    }
+
+    public void StopAllSounds()
+    {
+        audioSource.Stop();
     }
 }

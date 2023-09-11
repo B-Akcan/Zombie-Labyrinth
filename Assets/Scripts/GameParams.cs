@@ -12,7 +12,7 @@ static class GameParams
     public const float assaultFireRate = 10f;
     public const float shotgunFireRate = 0.9f;
     public const float pistolFireRate = 10f;
-    public enum MagazineSize {ASSAULT = 30, SHOTGUN = 6, PISTOL = 7};
+    public enum MagazineSize {ASSAULT = 30, SHOTGUN = 6, PISTOL = 12};
     public enum Range {ASSAULT = 25, SHOTGUN = 7, PISTOL = 15};
     public enum Damage {ASSAULT = 20, SHOTGUN = 100, PISTOL = 17};
     public const float assaultReloadDuration = 3f;
@@ -29,7 +29,7 @@ static class GameParams
 
     // Enemy
     public const float enemySpeed = 3f;
-    public const float rotationSpeed = 5f;
+    public const float rotationSpeed = 10f;
     public const float enemyRange = 2f;
     public const float enemyAttackDuration = 2.479f;
     public const float enemyDieDuration = 1.15f;
@@ -37,5 +37,4 @@ static class GameParams
     public const float searchingVolume = 0.05f;
     public const float attackVolume = 1f;
     public const float deadVolume = 0.5f;
-
 }
