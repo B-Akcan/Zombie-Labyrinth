@@ -1442,7 +1442,6 @@ GameObject:
   - component: {fileID: 4932267959246028}
   - component: {fileID: 95090565265420528}
   - component: {fileID: 4264937142016532911}
-  - component: {fileID: 7985356168560798710}
   - component: {fileID: -6824412212039078871}
   - component: {fileID: 1471578491899168885}
   m_Layer: 0
@@ -1510,29 +1509,6 @@ MonoBehaviour:
   dead: {fileID: 8300000, guid: d2341c5c29e62904da23b4852b628e19, type: 3}
   attackClip: {fileID: 7400000, guid: 6585f33e12d5d6d458d7791be780acf3, type: 3}
   deathClip: {fileID: 7400000, guid: 0b3f699d392be524b9cda84276bf2c99, type: 3}
---- !u!136 &7985356168560798710
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1352753540370996}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.3
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!82 &-6824412212039078871
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1648,7 +1624,7 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2
+  m_Height: 1.7
   m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.3

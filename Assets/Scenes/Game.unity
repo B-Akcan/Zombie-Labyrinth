@@ -4958,7 +4958,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.19
+  near clip plane: 0.17
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -4986,7 +4986,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.735, z: 0.135}
+  m_LocalPosition: {x: 0, y: 1.735, z: 0.191}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5374,7 +5374,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1014880742}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -22, y: 1.25, z: -7.16}
+  m_LocalPosition: {x: -22.61, y: 1.25, z: -7.16}
   m_LocalScale: {x: 5, y: 2.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5760,7 +5760,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1049548652}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -20.12, y: 1.25, z: -12.43}
+  m_LocalPosition: {x: -19.57, y: 1.25, z: -12.43}
   m_LocalScale: {x: 5, y: 2.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6245,29 +6245,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5020810793632654712, guid: a32b89e71fbd51d4d9b3d270682a75ce, type: 3}
   m_PrefabInstance: {fileID: 1911889208}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &1162385505
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1162385500}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!114 &1162385506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6293,7 +6270,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: f3843cecae5f19f45a6ce2183cfd5bf8, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
-  m_Pitch: 0.5
+  m_Pitch: 1
   Loop: 1
   Mute: 0
   Spatialize: 0
@@ -6396,7 +6373,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.5
+  m_Radius: 1
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -10673,9 +10650,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8356104788382652267, guid: a32b89e71fbd51d4d9b3d270682a75ce, type: 3}
       insertIndex: 1
       addedObject: {fileID: 1162385512}
-    - targetCorrespondingSourceObject: {fileID: 8356104788382652267, guid: a32b89e71fbd51d4d9b3d270682a75ce, type: 3}
-      insertIndex: 2
-      addedObject: {fileID: 1162385505}
     - targetCorrespondingSourceObject: {fileID: 8356104788382652267, guid: a32b89e71fbd51d4d9b3d270682a75ce, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1162385508}

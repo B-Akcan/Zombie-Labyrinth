@@ -40,7 +40,6 @@ public class Gun : MonoBehaviour
     WaitForSeconds reloadDelayPistol;
     WaitForSeconds reloadDelay;
     bool reloading;
-    Animator animator;
     int range;
     int damage;
     Enemy enemy;
@@ -61,8 +60,6 @@ public class Gun : MonoBehaviour
         muzzleFlash_Assault = bulletSpawnPt_Assault.transform.GetChild(0).GetComponent<ParticleSystem>();
         muzzleFlash_Shotgun = bulletSpawnPt_Shotgun.transform.GetChild(0).GetComponent<ParticleSystem>();
         muzzleFlash_Pistol = bulletSpawnPt_Pistol.transform.GetChild(0).GetComponent<ParticleSystem>();
-
-        animator = transform.parent.gameObject.GetComponent<Animator>();
     }
     
     void Start()
@@ -103,8 +100,6 @@ public class Gun : MonoBehaviour
     {
         if (currentRounds > 0 && ((selectedGun == assault) ? Input.GetKey(KeyCode.Mouse0) : Input.GetKeyDown(KeyCode.Mouse0)))
         {
-            animator.SetBool(IS_SHOOTING, true);
-
             if (Time.time >= elapsedTime)
             {
                 elapsedTime = Time.time + (1f / fireRate);
@@ -134,8 +129,6 @@ public class Gun : MonoBehaviour
 
         else
         {
-            animator.SetBool(IS_SHOOTING, false);
-
             if (currentRounds == 0)
                 UI.SharedInstance.ActivateReloadWarning();
 
