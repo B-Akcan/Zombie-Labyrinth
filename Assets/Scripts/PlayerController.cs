@@ -18,6 +18,12 @@ public class PlayerController : MonoBehaviour
     AudioSource audioSource;
     bool isPlayingSound;
     CharacterController controller;
+    bool gameStopped;
+
+    public bool isGameStopped()
+    {
+        return gameStopped;
+    }
 
     void Awake()
     {
@@ -33,16 +39,23 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         isPlayingSound = false;
+        gameStopped = false;
         input = new Vector3();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (!PlayerStats.SharedInstance.PlayerIsDead())
         {
             CursorLockUnlock();
-            CameraControl();
-            Move();
+
+            if (!gameStopped)
+            {
+                CameraControl();
+                Move();
+            }
+            else
+                StopWalkingSound();
         }
     }
 
@@ -52,9 +65,17 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (Cursor.lockState == CursorLockMode.Locked)
+            {
                 Cursor.lockState = CursorLockMode.None;
+                gameStopped = true;
+                UI.SharedInstance.ActivateGameStoppedUI();
+            }
             else
+            {
                 Cursor.lockState = CursorLockMode.Locked;
+                gameStopped = false;
+                UI.SharedInstance.DeactivateGameStoppedUI();
+            }
         }
     }
 
@@ -94,7 +115,7 @@ public class PlayerController : MonoBehaviour
         controller.Move(input * speed * Time.deltaTime);
     }
 
-    public void StopAllSounds()
+    public void StopWalkingSound()
     {
         audioSource.Stop();
     }

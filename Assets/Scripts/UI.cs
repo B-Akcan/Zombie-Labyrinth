@@ -28,6 +28,7 @@ public class UI : MonoBehaviour
     GameObject crosshairs;
     GameObject reloadWarning;
     GameObject endGame;
+    GameObject stopGame;
 
     void Awake()
     {
@@ -40,6 +41,7 @@ public class UI : MonoBehaviour
         crosshairs = transform.Find(CROSSHAIRS).gameObject;
         reloadWarning = transform.Find(RELOAD_WARNING).gameObject;
         endGame = transform.Find(END_GAME).gameObject;
+        stopGame = transform.Find(STOP_GAME).gameObject;
 
         healthBar = health.transform.Find(HEALTH_BAR).gameObject.GetComponent<Image>();
         scoreCount = score.transform.Find(SCORE_COUNT).gameObject.GetComponent<TMP_Text>();
@@ -59,13 +61,7 @@ public class UI : MonoBehaviour
         scorePositionEndGame = new Vector3(44, -10, 0);
         scorePosition.anchoredPosition = scorePositionInGame;
 
-        health.SetActive(true);
-        score.SetActive(true);
-        ammo.SetActive(true);
-        gun.SetActive(true);
-        crosshairs.SetActive(true);
-        reloadWarning.SetActive(false);
-        endGame.SetActive(false);
+        ActivateInitialUI();
     }
 
     public void SetHealthBar(int health)
@@ -123,6 +119,30 @@ public class UI : MonoBehaviour
         reloadWarning.SetActive(false);
     }
 
+    void ActivateInitialUI()
+    {
+        health.SetActive(true);
+        score.SetActive(true);
+        ammo.SetActive(true);
+        gun.SetActive(true);
+        crosshairs.SetActive(true);
+        reloadWarning.SetActive(false);
+        endGame.SetActive(false);
+        stopGame.SetActive(false);
+    }
+
+    public void ActivateGameStoppedUI()
+    {
+        crosshairs.SetActive(false);
+        stopGame.SetActive(true);
+    }
+
+    public void DeactivateGameStoppedUI()
+    {
+        crosshairs.SetActive(true);
+        stopGame.SetActive(false);
+    }
+
     public void ActivateEndGameUI()
     {
         health.SetActive(false);
@@ -132,12 +152,18 @@ public class UI : MonoBehaviour
         crosshairs.SetActive(false);
         reloadWarning.SetActive(false);
         endGame.SetActive(true);
+        stopGame.SetActive(false);
 
         scorePosition.anchoredPosition = scorePositionEndGame;
     }
 
     public void PlayAgain()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(1);
+    }
+
+    public void Exit()
+    {
+        SceneManager.LoadScene(0);
     }
 }

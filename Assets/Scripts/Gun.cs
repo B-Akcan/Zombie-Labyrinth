@@ -72,7 +72,7 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        if (!reloading && !PlayerStats.SharedInstance.PlayerIsDead())
+        if (!reloading && !PlayerStats.SharedInstance.PlayerIsDead() && !PlayerController.SharedInstance.isGameStopped())
         {
             GunSelect();
             Fire();

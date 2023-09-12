@@ -22,6 +22,7 @@ public class EnemyPool : MonoBehaviour
     double timePassed; // Since last spawn
     int i;
     double difficulty;
+    [SerializeField] IntSO difficultySO;
 
     void Awake()
     {
@@ -41,7 +42,13 @@ public class EnemyPool : MonoBehaviour
         }
 
         enemySpawnTimer = initialEnemySpawnTimer;
-        difficulty = difficultyNormal;
+        
+        switch (difficultySO.Value)
+        {
+            case 0: difficulty = difficultyEasy; break;
+            case 1: difficulty = difficultyMedium; break;
+            case 2: difficulty = difficultyHard; break;
+        }
 
         timePassed = 0f;
         i = 0;
@@ -49,7 +56,7 @@ public class EnemyPool : MonoBehaviour
 
     void Update()
     {
-        if (!PlayerStats.SharedInstance.PlayerIsDead())
+        if (!PlayerStats.SharedInstance.PlayerIsDead() && !PlayerController.SharedInstance.isGameStopped())
             Spawn();
     }
 

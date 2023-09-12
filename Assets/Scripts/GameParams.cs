@@ -24,7 +24,7 @@ static class GameParams
     public const float initialEnemySpawnTimer = 5f;
     public const int scoreMultiplier = 5;
     public const double difficultyEasy = 0.9;
-    public const double difficultyNormal = 0.7;
+    public const double difficultyMedium = 0.7;
     public const double difficultyHard = 0.5;
 
     // Enemy
@@ -37,4 +37,7 @@ static class GameParams
     public const float searchingVolume = 0.05f;
     public const float attackVolume = 1f;
     public const float deadVolume = 0.5f;
+
+    // GameMenu
+    public const float initialBrightness = 0.3f;
 }

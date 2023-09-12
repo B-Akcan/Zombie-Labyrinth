@@ -36,8 +36,6 @@ public class Enemy : MonoBehaviour
     float volume;
     bool canSpeak;
     bool isAlive;
-    [SerializeField] AnimationClip attackClip;
-    [SerializeField] AnimationClip deathClip;
 
 
     void Awake()
@@ -67,7 +65,7 @@ public class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!PlayerStats.SharedInstance.PlayerIsDead())
+        if (!PlayerStats.SharedInstance.PlayerIsDead() && !PlayerController.SharedInstance.isGameStopped())
             Move();
     }
 
