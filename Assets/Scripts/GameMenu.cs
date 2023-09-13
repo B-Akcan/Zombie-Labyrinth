@@ -29,11 +29,7 @@ public class GameMenu : MonoBehaviour
         mainMenu.SetActive(true);
         optionsMenu.SetActive(false);
 
-        brightnessSO.Value = initialBrightness;
-        brightnessSlider.onValueChanged.AddListener(delegate {brightnessSO.Value = brightnessSlider.value; });
-
-        difficultySO.Value = 1;
-        difficultyDropdown.onValueChanged.AddListener(delegate {difficultySO.Value = difficultyDropdown.value; });
+        InitializeOptions();
     }
 
     public void Play()
@@ -47,11 +43,6 @@ public class GameMenu : MonoBehaviour
         optionsMenu.SetActive(true);
     }
 
-    public void Difficulty()
-    {
-
-    }
-
     public void Back()
     {
         mainMenu.SetActive(true);
@@ -61,5 +52,14 @@ public class GameMenu : MonoBehaviour
     public void Exit()
     {
         Application.Quit();
+    }
+
+    void InitializeOptions()
+    {
+        brightnessSlider.value = (float) brightnessSO.Value;
+        difficultyDropdown.value = difficultySO.Value;
+
+        brightnessSlider.onValueChanged.AddListener(delegate {brightnessSO.Value = brightnessSlider.value; });
+        difficultyDropdown.onValueChanged.AddListener(delegate {difficultySO.Value = difficultyDropdown.value; });
     }
 }

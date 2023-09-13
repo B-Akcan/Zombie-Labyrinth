@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class Enlightenment : MonoBehaviour
 {
-    public static Enlightenment SharedInstance;
     Light lightComp;
     [SerializeField] DoubleSO brightnessSO;
 
     void Awake()
     {
-        SharedInstance = this;
-
         lightComp = GetComponent<Light>();
     }
 

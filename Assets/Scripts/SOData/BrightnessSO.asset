@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dbdcf788ce488547adbbdad071e9aac, type: 3}
   m_Name: BrightnessSO
   m_EditorClassIdentifier: 
-  _value: 0
+  _value: 0.3
