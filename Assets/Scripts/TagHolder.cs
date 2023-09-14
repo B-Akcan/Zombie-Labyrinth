@@ -28,5 +28,6 @@ static class TagHolder
     public const string MAIN_MENU = "MainMenu";
     public const string OPTIONS_MENU = "OptionsMenu";
     public const string BRIGHTNESS = "OptionsMenu/Brightness/Slider";
+    public const string SENSITIVITY = "OptionsMenu/Sensitivity/Slider";
     public const string DIFFICULTY = "OptionsMenu/Difficulty/Dropdown";
 }

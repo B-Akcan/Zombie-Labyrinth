@@ -13,6 +13,8 @@ public class GameMenu : MonoBehaviour
     GameObject optionsMenu;
     Slider brightnessSlider;
     [SerializeField] DoubleSO brightnessSO;
+    Slider sensitivitySlider;
+    [SerializeField] DoubleSO sensitivitySO;
     TMP_Dropdown difficultyDropdown;
     [SerializeField] IntSO difficultySO;
 
@@ -21,6 +23,7 @@ public class GameMenu : MonoBehaviour
         mainMenu = transform.Find(MAIN_MENU).gameObject;
         optionsMenu = transform.Find(OPTIONS_MENU).gameObject;
         brightnessSlider = transform.Find(BRIGHTNESS).gameObject.GetComponent<Slider>();
+        sensitivitySlider = transform.Find(SENSITIVITY).gameObject.GetComponent<Slider>();
         difficultyDropdown = transform.Find(DIFFICULTY).gameObject.GetComponent<TMP_Dropdown>();
     }
 
@@ -57,9 +60,11 @@ public class GameMenu : MonoBehaviour
     void InitializeOptions()
     {
         brightnessSlider.value = (float) brightnessSO.Value;
+        sensitivitySlider.value = (float) sensitivitySO.Value;
         difficultyDropdown.value = difficultySO.Value;
 
         brightnessSlider.onValueChanged.AddListener(delegate {brightnessSO.Value = brightnessSlider.value; });
+        sensitivitySlider.onValueChanged.AddListener(delegate {sensitivitySO.Value = sensitivitySlider.value; });
         difficultyDropdown.onValueChanged.AddListener(delegate {difficultySO.Value = difficultyDropdown.value; });
     }
 }

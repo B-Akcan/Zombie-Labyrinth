@@ -9479,8 +9479,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75e06debbb06a2c438e685d8350c4cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 5
   invertCam: -1
+  sensitivitySO: {fileID: 11400000, guid: 27a8713bbb36a124282a066200c7bd7d, type: 2}
 --- !u!82 &1737344611
 AudioSource:
   m_ObjectHideFlags: 0

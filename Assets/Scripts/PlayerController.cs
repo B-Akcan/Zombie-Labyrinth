@@ -9,8 +9,8 @@ using UnityEditor;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController SharedInstance;
-    [Range(1f, 20f)][SerializeField] float mouseSensitivity = 5f;   // Sensitivity of the mouse for camera control
-    [SerializeField] InvertCamera invertCam;   // Selected camera inversion option
+    [Range(1f, 20f)] float mouseSensitivity;   // Sensitivity of the mouse for camera control
+    InvertCamera invertCam;   // Selected camera inversion option
     Vector2 look;   // Vector to store camera rotation
     Vector3 input;
     Transform cam;
@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     bool isPlayingSound;
     CharacterController controller;
     bool gameStopped;
+    [SerializeField] DoubleSO sensitivitySO;
 
     public bool isGameStopped()
     {
@@ -38,9 +39,12 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        invertCam = InvertCamera.NORMAL;
         isPlayingSound = false;
         gameStopped = false;
         input = new Vector3();
+
+        mouseSensitivity = (float) sensitivitySO.Value;
     }
 
     void Update()
