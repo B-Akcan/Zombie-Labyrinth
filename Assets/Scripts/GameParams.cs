@@ -15,6 +15,7 @@ static class GameParams
     public enum MagazineSize {ASSAULT = 30, SHOTGUN = 6, PISTOL = 12};
     public enum Range {ASSAULT = 25, SHOTGUN = 7, PISTOL = 15};
     public enum Damage {ASSAULT = 20, SHOTGUN = 100, PISTOL = 17};
+    public enum HeadshotDamage {ASSAULT = 50, SHOTGUN = 100, PISTOL = 100};
     public const float assaultReloadDuration = 3f;
     public const float shotgunReloadDuration = 4.3f;
     public const float pistolReloadDuration = 1.7f;

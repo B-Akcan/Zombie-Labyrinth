@@ -43,6 +43,7 @@ public class Gun : MonoBehaviour
     bool reloading;
     int range;
     int damage;
+    int headshotDamage;
     Enemy enemy;
     GameObject hitObject;
 
@@ -118,7 +119,11 @@ public class Gun : MonoBehaviour
                     if (hitObject.tag.Equals(ENEMY))
                     {
                         enemy = EnemyPool.SharedInstance.GetEnemy(hitObject);
-                        enemy.TakeDamage(damage);
+
+                        if (hit.point.y >= 1.5)
+                            enemy.TakeDamage(headshotDamage);
+                        else
+                            enemy.TakeDamage(damage);
                     }
                     else if (hitObject.tag.Equals(ENVIRONMENT))
                     {
@@ -159,6 +164,7 @@ public class Gun : MonoBehaviour
         currentRounds = assaultRounds;
         damage = (int) Damage.ASSAULT;
         magazineSize = (int) MagazineSize.ASSAULT;
+        headshotDamage = (int) HeadshotDamage.ASSAULT;
 
         UI.SharedInstance.SetAmmoCount(assaultRounds);
         UI.SharedInstance.SetActiveGun(assault);
@@ -186,6 +192,7 @@ public class Gun : MonoBehaviour
         currentRounds = shotgunRounds;
         damage = (int) Damage.SHOTGUN;
         magazineSize = (int) MagazineSize.SHOTGUN;
+        headshotDamage = (int) HeadshotDamage.SHOTGUN;
 
         UI.SharedInstance.SetAmmoCount(shotgunRounds);
         UI.SharedInstance.SetActiveGun(shotgun);
@@ -213,6 +220,7 @@ public class Gun : MonoBehaviour
         currentRounds = pistolRounds;
         damage = (int) Damage.PISTOL;
         magazineSize = (int) MagazineSize.PISTOL;
+        headshotDamage = (int) HeadshotDamage.PISTOL;
 
         UI.SharedInstance.SetAmmoCount(pistolRounds);
         UI.SharedInstance.SetActiveGun(pistol);
