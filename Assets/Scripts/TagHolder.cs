@@ -27,6 +27,7 @@ static class TagHolder
     public const string CROSSHAIR_PISTOL = "Pistol";
     public const string MAIN_MENU = "MainMenu";
     public const string OPTIONS_MENU = "OptionsMenu";
+    public const string SCREEN_MODE = "OptionsMenu/ScreenMode/Dropdown";
     public const string BRIGHTNESS = "OptionsMenu/Brightness/Slider";
     public const string SENSITIVITY = "OptionsMenu/Sensitivity/Slider";
     public const string DIFFICULTY = "OptionsMenu/Difficulty/Dropdown";

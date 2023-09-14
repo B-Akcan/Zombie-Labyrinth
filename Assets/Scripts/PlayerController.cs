@@ -109,9 +109,11 @@ public class PlayerController : MonoBehaviour
                 audioSource.Play();
             isPlayingSound = true;
         }
+        
         else
         {
             animator.SetBool(IS_RUNNING, false);
+
             audioSource.Stop();
             isPlayingSound = false;
         }

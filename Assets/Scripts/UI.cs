@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
+using System;
 
 public class UI : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class UI : MonoBehaviour
     GameObject reloadWarning;
     GameObject endGame;
     GameObject stopGame;
+    [SerializeField] IntSO screenModeSO;
 
     void Awake()
     {
@@ -62,6 +64,7 @@ public class UI : MonoBehaviour
         scorePosition.anchoredPosition = scorePositionInGame;
 
         ActivateInitialUI();
+        AdjustScreenMode();
     }
 
     public void SetHealthBar(int health)
@@ -165,5 +168,14 @@ public class UI : MonoBehaviour
     public void Exit()
     {
         SceneManager.LoadScene(0);
+    }
+
+    void AdjustScreenMode()
+    {
+        switch (screenModeSO.Value)
+        {
+            case 0: Screen.fullScreenMode = FullScreenMode.FullScreenWindow; break;
+            case 1: Screen.fullScreenMode = FullScreenMode.Windowed; break;
+        }
     }
 }

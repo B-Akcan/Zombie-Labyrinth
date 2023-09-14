@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dbdcf788ce488547adbbdad071e9aac, type: 3}
-  m_Name: SensitivitySO
+  m_Script: {fileID: 11500000, guid: 1513853470e244849a2cd91b37da561a, type: 3}
+  m_Name: ScreenModeSO
   m_EditorClassIdentifier: 
-  _value: 5
+  _value: 0
