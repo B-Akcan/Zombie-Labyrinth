@@ -16,7 +16,8 @@ public class EnemyPool : MonoBehaviour
                                                    new Vector3(23, 0, 0),
                                                    new Vector3(-23, 0, 0),
                                                    new Vector3(0, 0, 23),
-                                                   new Vector3(0, 0, 0)};
+                                                   new Vector3(0, 0, 0),
+                                                   new Vector3(0, 0, -23)};
     Vector3 spawnPoint;
     double enemySpawnTimer;
     double timePassed; // Since last spawn
@@ -41,17 +42,12 @@ public class EnemyPool : MonoBehaviour
             enemies.Add(tmp);
         }
 
-        enemySpawnTimer = initialEnemySpawnTimer;
-        
-        switch (difficultySO.Value)
-        {
-            case 0: difficulty = difficultyEasy; break;
-            case 1: difficulty = difficultyMedium; break;
-            case 2: difficulty = difficultyHard; break;
-        }
-
-        timePassed = 0f;
         i = 0;
+
+        enemySpawnTimer = initialEnemySpawnTimer;
+        timePassed = initialSpawnTime;
+        
+        AdjustDifficulty();
     }
 
     void Update()
@@ -74,7 +70,7 @@ public class EnemyPool : MonoBehaviour
         {
             timePassed = Time.time + enemySpawnTimer;
 
-            spawnPoint = spawnPoints[Random.Range(0, 8)];
+            spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
             enemies[i].transform.position = spawnPoint;
             enemies[i].gameObject.SetActive(true);
         }
@@ -97,5 +93,15 @@ public class EnemyPool : MonoBehaviour
     {
         if (PlayerStats.SharedInstance.GetScore() % scoreMultiplier == 0)
             enemySpawnTimer *= difficulty;
+    }
+
+    void AdjustDifficulty()
+    {
+        switch (difficultySO.Value)
+        {
+            case 0: difficulty = difficultyEasy; break;
+            case 1: difficulty = difficultyMedium; break;
+            case 2: difficulty = difficultyHard; break;
+        }
     }
 }

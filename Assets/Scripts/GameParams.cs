@@ -12,10 +12,10 @@ static class GameParams
     public const float assaultFireRate = 10f;
     public const float shotgunFireRate = 0.9f;
     public const float pistolFireRate = 10f;
-    public enum MagazineSize {ASSAULT = 30, SHOTGUN = 6, PISTOL = 12};
+    public enum MagazineSize {ASSAULT = 30, SHOTGUN = 6, PISTOL = 7};
     public enum Range {ASSAULT = 25, SHOTGUN = 7, PISTOL = 15};
     public enum Damage {ASSAULT = 20, SHOTGUN = 100, PISTOL = 17};
-    public enum HeadshotDamage {ASSAULT = 50, SHOTGUN = 100, PISTOL = 100};
+    public enum HeadshotDamage {ASSAULT = 34, SHOTGUN = 100, PISTOL = 50};
     public const float assaultReloadDuration = 3f;
     public const float shotgunReloadDuration = 4.3f;
     public const float pistolReloadDuration = 1.7f;
@@ -27,6 +27,7 @@ static class GameParams
     public const double difficultyEasy = 0.9;
     public const double difficultyMedium = 0.7;
     public const double difficultyHard = 0.5;
+    public const double initialSpawnTime = 3f;
 
     // Enemy
     public const float enemySpeed = 3f;
