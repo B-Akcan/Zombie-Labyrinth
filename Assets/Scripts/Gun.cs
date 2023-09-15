@@ -44,6 +44,7 @@ public class Gun : MonoBehaviour
     int range;
     int damage;
     int headshotDamage;
+    bool isHeadshot;
     Enemy enemy;
     GameObject hitObject;
 
@@ -109,7 +110,7 @@ public class Gun : MonoBehaviour
                 DecrementRounds();
 
                 muzzleFlash.Play();
-                audioSource.PlayOneShot(fireSound);
+                audioSource.PlayOneShot(fireSound, shootVolume);
 
                 RaycastHit hit;
                 if (Physics.Raycast(bulletSpawnPt.transform.position, bulletSpawnPt.transform.TransformDirection(Vector3.forward), out hit, range))
@@ -121,9 +122,15 @@ public class Gun : MonoBehaviour
                         enemy = EnemyPool.SharedInstance.GetEnemy(hitObject);
 
                         if (hit.point.y >= 1.5)
-                            enemy.TakeDamage(headshotDamage);
+                        {
+                            isHeadshot = true;
+                            enemy.TakeDamage(headshotDamage, isHeadshot);
+                        }
                         else
-                            enemy.TakeDamage(damage);
+                        {
+                            isHeadshot = false;
+                            enemy.TakeDamage(damage, isHeadshot);
+                        }
                     }
                     else if (hitObject.tag.Equals(ENVIRONMENT))
                     {
@@ -263,7 +270,7 @@ public class Gun : MonoBehaviour
     {
         reloading = true;
 
-        audioSource.PlayOneShot(reloadSound);
+        audioSource.PlayOneShot(reloadSound, reloadVolume);
 
         UI.SharedInstance.DeactivateReloadWarning();
 

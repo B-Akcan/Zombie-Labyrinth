@@ -19,6 +19,8 @@ static class GameParams
     public const float assaultReloadDuration = 3f;
     public const float shotgunReloadDuration = 4.3f;
     public const float pistolReloadDuration = 1.7f;
+    public const float shootVolume = 0.3f;
+    public const float reloadVolume = 0.5f;
 
     // EnemyPool
     public const int amountToPool = 100;
@@ -27,7 +29,7 @@ static class GameParams
     public const double difficultyEasy = 0.9;
     public const double difficultyMedium = 0.7;
     public const double difficultyHard = 0.5;
-    public const double initialSpawnTime = 3f;
+    public const double initialSpawnTime = 5f;
 
     // Enemy
     public const float enemySpeed = 3f;
@@ -36,9 +38,10 @@ static class GameParams
     public const float enemyAttackDuration = 2.479f;
     public const float enemyDieDuration = 1.15f;
     public const int enemyDamage = 20;
-    public const float searchingVolume = 0.05f;
+    public const float searchingVolume = 0.01f;
     public const float attackVolume = 1f;
     public const float deadVolume = 0.5f;
+    public const float headshotVolume = 1f;
 
     // GameMenu
     public const float initialBrightness = 0.3f;

@@ -30,6 +30,8 @@ public class Enemy : MonoBehaviour
     List<AudioClip> attackClips;
     [SerializeField] AudioClip dead;
     WaitForSeconds dead_length;
+    [SerializeField] AudioClip headshot;
+    WaitForSeconds headshot_length;
     AudioClip clip;
     IEnumerator coroutine;
     WaitForSeconds soundDelay;
@@ -61,6 +63,7 @@ public class Enemy : MonoBehaviour
         attack1_length = new WaitForSeconds(attack1.length * 2);
         attack2_length = new WaitForSeconds(attack2.length * 2);
         dead_length = new WaitForSeconds(dead.length);
+        headshot_length = new WaitForSeconds(headshot.length);
     }
 
     void FixedUpdate()
@@ -97,6 +100,7 @@ public class Enemy : MonoBehaviour
             case "Searching2": soundDelay = searching2_length; volume = searchingVolume; break;
             case "Attack1": soundDelay = attack1_length; volume = attackVolume; break;
             case "Attack2": soundDelay = attack2_length; volume = attackVolume; break;
+            case "Headshot": soundDelay = headshot_length; volume = headshotVolume; break;
             case "Dead": soundDelay = dead_length; volume = deadVolume; break;
 
             default: break;
@@ -142,12 +146,15 @@ public class Enemy : MonoBehaviour
         StartCoroutine(WaitAttack());
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool isHeadshot)
     {
         if (isAlive)
         {
             health -= damage;
             health = Mathf.Clamp(health, 0, 100);
+
+            if (isHeadshot)
+                PlayClip(headshot);
 
             if (health == 0)
                 Die();
@@ -158,10 +165,12 @@ public class Enemy : MonoBehaviour
     {
         isAlive = false;
         canMove = false;
-        animator.SetBool(IS_DEAD, true);
+
         PlayClip(dead);
+            
         PlayerStats.SharedInstance.IncrementScore();
 
+        animator.SetBool(IS_DEAD, true);
         StartCoroutine(WaitDie());
     }
 

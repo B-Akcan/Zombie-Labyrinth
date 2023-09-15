@@ -66,9 +66,9 @@ public class EnemyPool : MonoBehaviour
                 i++;
         }
         
-        if (Time.time >= timePassed)
+        if (Time.timeSinceLevelLoadAsDouble >= timePassed)
         {
-            timePassed = Time.time + enemySpawnTimer;
+            timePassed = Time.timeSinceLevelLoadAsDouble + enemySpawnTimer;
 
             spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
             enemies[i].transform.position = spawnPoint;
