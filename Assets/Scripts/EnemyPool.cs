@@ -52,7 +52,7 @@ public class EnemyPool : MonoBehaviour
 
     void Update()
     {
-        if (!PlayerStats.SharedInstance.PlayerIsDead() && !PlayerController.SharedInstance.isGameStopped())
+        if (!PlayerStats.SharedInstance.PlayerIsDead() && !PlayerController.SharedInstance.isGameStopped() && IsThereAnyEnemyToSpawn())
             Spawn();
     }
 
@@ -103,5 +103,16 @@ public class EnemyPool : MonoBehaviour
             case 1: difficulty = difficultyMedium; break;
             case 2: difficulty = difficultyHard; break;
         }
+    }
+
+    bool IsThereAnyEnemyToSpawn()
+    {
+        for (int i=0; i<ep_amountToPool; i++)
+        {
+            if (!enemies[i].gameObject.activeInHierarchy)
+                return true;
+        }
+
+        return false;
     }
 }

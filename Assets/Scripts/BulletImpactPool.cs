@@ -11,6 +11,7 @@ public class BulletImpactPool : MonoBehaviour
     Queue<GameObject> effects;
     WaitForSeconds bulletImpactLifetime;
     IEnumerator coroutine;
+    Quaternion floorRotation = Quaternion.Euler(90, 0, 0);
 
     void Awake()
     {
@@ -45,7 +46,7 @@ public class BulletImpactPool : MonoBehaviour
             effect.transform.LookAt(PlayerController.SharedInstance.GetCamera());
 
         else if (hit.transform.gameObject.tag.Equals(BOTTOM))
-            effect.transform.rotation = Quaternion.Euler(-90, 0, 0);
+            effect.transform.rotation = floorRotation;
 
         effect.SetActive(true);
 
