@@ -38,7 +38,7 @@ static class GameParams
     public const float enemyAttackDuration = 2.479f;
     public const float enemyDieDuration = 1.15f;
     public const int enemyDamage = 20;
-    public const float searchingVolume = 0.01f;
+    public const float searchingVolume = 0.3f;
     public const float attackVolume = 1f;
     public const float deadVolume = 0.5f;
     public const float headshotVolume = 1f;

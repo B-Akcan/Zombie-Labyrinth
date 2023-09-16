@@ -1507,7 +1507,7 @@ MonoBehaviour:
   attack1: {fileID: 8300000, guid: 8cf6575129373bf418dc56a7029c3974, type: 3}
   attack2: {fileID: 8300000, guid: 5328fd3fdf326a44f9c5df9b82271206, type: 3}
   dead: {fileID: 8300000, guid: d2341c5c29e62904da23b4852b628e19, type: 3}
-  headshot: {fileID: 8300000, guid: 754acd7ac51936a44a4aaf8b2206380a, type: 3}
+  headshot: {fileID: 8300000, guid: a37f44cbf8c2a7443a3c361efa2f233a, type: 3}
 --- !u!82 &-6824412212039078871
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1519,7 +1519,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1564,7 +1564,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
