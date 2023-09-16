@@ -49,4 +49,8 @@ static class GameParams
     // BulletImpactPool
     public const int bip_amountToPool = 50;
     public const float bulletImpactDelay = 5f;
+
+    // BloodSprayPool
+    public const int bsp_amountToPool = 50;
+    public const float bloodSprayDelay = 0.5f;
 }

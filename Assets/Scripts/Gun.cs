@@ -131,6 +131,11 @@ public class Gun : MonoBehaviour
                             isHeadshot = false;
                             enemy.TakeDamage(damage, isHeadshot);
                         }
+
+                        GameObject bloodSprayEffect = BloodSprayPool.SharedInstance.GetEffect();
+
+                        if (bloodSprayEffect != null)
+                            BloodSprayPool.SharedInstance.InstantiateEffect(bloodSprayEffect, hit);
                     }
 
                     else if (hitObject.tag.Equals(ENVIRONMENT) || hitObject.tag.Equals(BOTTOM))
