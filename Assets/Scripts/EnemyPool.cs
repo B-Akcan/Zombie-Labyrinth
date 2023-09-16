@@ -34,7 +34,7 @@ public class EnemyPool : MonoBehaviour
     {
         enemies = new List<Enemy>();
         Enemy tmp;
-        for(int i = 0; i < amountToPool; i++)
+        for(int i = 0; i < ep_amountToPool; i++)
         {
             tmp = Instantiate(enemyPrefab);
             tmp.transform.parent = transform;
@@ -60,7 +60,7 @@ public class EnemyPool : MonoBehaviour
     {
         if (enemies[i].gameObject.activeInHierarchy)
         {
-            if (i+1 == amountToPool)
+            if (i+1 == ep_amountToPool)
                 i = 0;
             else
                 i++;
@@ -78,7 +78,7 @@ public class EnemyPool : MonoBehaviour
 
     public Enemy GetEnemy(GameObject obj)
     {
-        for (int i=0; i<amountToPool; i++)
+        for (int i=0; i<ep_amountToPool; i++)
         {
             if (enemies[i].gameObject == obj)
             {

@@ -132,9 +132,13 @@ public class Gun : MonoBehaviour
                             enemy.TakeDamage(damage, isHeadshot);
                         }
                     }
-                    else if (hitObject.tag.Equals(ENVIRONMENT))
+
+                    else if (hitObject.tag.Equals(ENVIRONMENT) || hitObject.tag.Equals(BOTTOM))
                     {
-                       
+                        GameObject bulletImpactEffect = BulletImpactPool.SharedInstance.GetEffect();
+
+                        if (bulletImpactEffect != null)
+                            BulletImpactPool.SharedInstance.InstantiateEffect(bulletImpactEffect, hit);
                     }
                 }
             }

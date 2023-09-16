@@ -26,6 +26,11 @@ public class PlayerController : MonoBehaviour
         return gameStopped;
     }
 
+    public Transform GetCamera()
+    {
+        return cam;
+    }
+
     void Awake()
     {
         SharedInstance = this;

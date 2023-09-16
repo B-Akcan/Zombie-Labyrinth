@@ -23,7 +23,7 @@ static class GameParams
     public const float reloadVolume = 0.5f;
 
     // EnemyPool
-    public const int amountToPool = 100;
+    public const int ep_amountToPool = 100;
     public const float initialEnemySpawnTimer = 5f;
     public const int scoreMultiplier = 5;
     public const double difficultyEasy = 0.9;
@@ -45,4 +45,8 @@ static class GameParams
 
     // GameMenu
     public const float initialBrightness = 0.3f;
+
+    // BulletImpactPool
+    public const int bip_amountToPool = 50;
+    public const float bulletImpactDelay = 5f;
 }

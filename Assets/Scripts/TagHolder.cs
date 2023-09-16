@@ -10,6 +10,7 @@ static class TagHolder
     public const string IS_DEAD = "isDead";
     public const string ENEMY = "Enemy";
     public const string ENVIRONMENT = "Environment";
+    public const string BOTTOM = "Bottom";
     public const string HEALTH = "Health";
     public const string SCORE = "Score";
     public const string AMMO = "Ammo";

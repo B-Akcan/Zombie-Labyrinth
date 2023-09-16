@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Environment
+  - Bottom
   layers:
   - Default
   - TransparentFX
