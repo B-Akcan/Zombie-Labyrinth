@@ -178,4 +178,9 @@ public class UI : MonoBehaviour
             case 1: Screen.fullScreenMode = FullScreenMode.Windowed; break;
         }
     }
+
+    public void Resume()
+    {
+        PlayerController.SharedInstance.ResumeGame();
+    }
 }

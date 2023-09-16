@@ -11,7 +11,7 @@ public class BulletImpactPool : MonoBehaviour
     Queue<GameObject> effects;
     WaitForSeconds bulletImpactLifetime;
     IEnumerator coroutine;
-    Quaternion floorRotation = Quaternion.Euler(90, 0, 0);
+    Quaternion floorRotation = Quaternion.Euler(-90, 0, 0);
 
     void Awake()
     {

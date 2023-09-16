@@ -74,17 +74,9 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (Cursor.lockState == CursorLockMode.Locked)
-            {
-                Cursor.lockState = CursorLockMode.None;
-                gameStopped = true;
-                UI.SharedInstance.ActivateGameStoppedUI();
-            }
+                StopGame();
             else
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                gameStopped = false;
-                UI.SharedInstance.DeactivateGameStoppedUI();
-            }
+                ResumeGame();
         }
     }
 
@@ -129,5 +121,19 @@ public class PlayerController : MonoBehaviour
     public void StopWalkingSound()
     {
         audioSource.Stop();
+    }
+
+    void StopGame()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        gameStopped = true;
+        UI.SharedInstance.ActivateGameStoppedUI();
+    }
+
+    public void ResumeGame()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        gameStopped = false;
+        UI.SharedInstance.DeactivateGameStoppedUI();
     }
 }
