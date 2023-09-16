@@ -68,7 +68,7 @@ public class Gun : MonoBehaviour
     void Start()
     {
         AssignReloadDelays();
-        LoadAllWeapons();
+        LoadAllGuns();
         SelectAssault();
     }
 
@@ -78,7 +78,7 @@ public class Gun : MonoBehaviour
         {
             GunSelect();
             Fire();
-        }  
+        } 
     }
 
     void GunSelect()
@@ -96,6 +96,25 @@ public class Gun : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             SelectPistol();
+        }
+
+        if (Input.mouseScrollDelta == Vector2.up)
+        {
+            if (assault.activeInHierarchy)
+                SelectPistol();
+            else if (shotgun.activeInHierarchy)
+                SelectAssault();
+            else if (pistol.activeInHierarchy)
+                SelectShotgun();
+        }
+        else if (Input.mouseScrollDelta == Vector2.down)
+        {
+            if (assault.activeInHierarchy)
+                SelectShotgun();
+            else if (shotgun.activeInHierarchy)
+                SelectPistol();
+            else if (pistol.activeInHierarchy)
+                SelectAssault();
         }
     }
 
@@ -287,7 +306,7 @@ public class Gun : MonoBehaviour
         StartCoroutine(coroutine);
     }
 
-    void LoadAllWeapons()
+    void LoadAllGuns()
     {
         assaultRounds = (int) MagazineSize.ASSAULT;
         shotgunRounds = (int) MagazineSize.SHOTGUN;

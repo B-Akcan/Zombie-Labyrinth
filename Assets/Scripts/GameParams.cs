@@ -43,9 +43,6 @@ static class GameParams
     public const float deadVolume = 0.5f;
     public const float headshotVolume = 1f;
 
-    // GameMenu
-    public const float initialBrightness = 0.3f;
-
     // BulletImpactPool
     public const int bip_amountToPool = 50;
     public const float bulletImpactDelay = 5f;
