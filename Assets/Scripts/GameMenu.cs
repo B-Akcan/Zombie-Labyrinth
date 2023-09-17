@@ -19,6 +19,7 @@ public class GameMenu : MonoBehaviour
     [SerializeField] DoubleSO sensitivitySO;
     TMP_Dropdown difficultyDropdown;
     [SerializeField] IntSO difficultySO;
+    AudioSource audioSource;
 
     void Awake()
     {
