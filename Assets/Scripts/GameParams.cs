@@ -4,6 +4,9 @@ static class GameParams
     public enum InvertCamera {NORMAL=-1, INVERTED=1};
     public const float speed = 7f;
     public const float yRotationLimit = 60f;
+    public const float maxRecoil = 10f;
+    public const float recoilAmount = 0.1f;
+    public const float revertAmount = 0.3f;
 
     // PlayerStats
     public const int maxHealth = 100; // used by Enemy script as well

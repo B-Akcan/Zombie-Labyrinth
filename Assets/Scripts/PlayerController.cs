@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     CharacterController controller;
     bool gameStopped;
     [SerializeField] DoubleSO sensitivitySO;
+    float recoiledDegrees;
 
     public bool isGameStopped()
     {
@@ -50,6 +51,8 @@ public class PlayerController : MonoBehaviour
         input = new Vector3();
 
         mouseSensitivity = (float) sensitivitySO.Value;
+
+        recoiledDegrees = 0f;
     }
 
     void Update()
@@ -85,6 +88,9 @@ public class PlayerController : MonoBehaviour
     {
         look.x += Input.GetAxis("Mouse X") * mouseSensitivity;
         look.y += Input.GetAxis("Mouse Y") * mouseSensitivity;
+
+        Recoil();
+
         look.y = Mathf.Clamp(look.y, -yRotationLimit, yRotationLimit);
 
         transform.localRotation = Quaternion.Euler(transform.rotation.x, look.x, transform.rotation.z);
@@ -135,5 +141,21 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         gameStopped = false;
         UI.SharedInstance.DeactivateGameStoppedUI();
+    }
+
+    void Recoil()
+    {
+        if (Gun.SharedInstance.IsRecoiling() && recoiledDegrees < maxRecoil)
+        {
+            look.y += recoilAmount;
+            recoiledDegrees += recoilAmount;
+        }      
+
+        else if (recoiledDegrees > 0)
+        {
+            look.y -= revertAmount;
+            recoiledDegrees -= revertAmount;
+            recoiledDegrees = Mathf.Clamp(recoiledDegrees, 0, maxRecoil);
+        }
     }
 }

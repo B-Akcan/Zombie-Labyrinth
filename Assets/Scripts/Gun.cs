@@ -7,6 +7,7 @@ using static TagHolder;
 
 public class Gun : MonoBehaviour
 {
+    public static Gun SharedInstance;
     GameObject assault;
     GameObject shotgun;
     GameObject pistol;
@@ -47,9 +48,17 @@ public class Gun : MonoBehaviour
     bool isHeadshot;
     Enemy enemy;
     GameObject hitObject;
+    bool recoiling;
+
+    public bool IsRecoiling()
+    {
+        return recoiling;
+    }
 
     void Awake()
     {
+        SharedInstance = this;
+        
         assault = transform.Find(ASSAULT).gameObject;
         shotgun = transform.Find(SHOTGUN).gameObject;
         pistol = transform.Find(PISTOL).gameObject;
@@ -70,11 +79,13 @@ public class Gun : MonoBehaviour
         AssignReloadDelays();
         LoadAllGuns();
         SelectAssault();
+
+        recoiling = false;
     }
 
     void Update()
     {
-        if (!reloading && !PlayerStats.SharedInstance.PlayerIsDead() && !PlayerController.SharedInstance.isGameStopped())
+        if (!PlayerStats.SharedInstance.PlayerIsDead() && !PlayerController.SharedInstance.isGameStopped() && !reloading)
         {
             GunSelect();
             Fire();
@@ -122,6 +133,11 @@ public class Gun : MonoBehaviour
     {
         if (currentRounds > 0 && ((selectedGun == assault) ? Input.GetKey(KeyCode.Mouse0) : Input.GetKeyDown(KeyCode.Mouse0)))
         {
+            if (selectedGun == assault)
+                recoiling = true;
+            else
+                recoiling = false;
+
             if (Time.time >= elapsedTime)
             {
                 elapsedTime = Time.time + (1f / fireRate);
@@ -170,6 +186,8 @@ public class Gun : MonoBehaviour
 
         else
         {
+            recoiling = false;
+
             if (currentRounds == 0)
                 UI.SharedInstance.ActivateReloadWarning();
 
@@ -340,4 +358,5 @@ public class Gun : MonoBehaviour
 
         reloading = false;
     }
+
 }
