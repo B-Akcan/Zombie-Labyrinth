@@ -5,7 +5,9 @@ static class GameParams
     public const float speed = 7f;
     public const float yRotationLimit = 60f;
     public const float maxRecoil = 10f;
-    public const float recoilAmount = 0.1f;
+    public const float assaultRecoilAmount = 1.5f;
+    public const float shotgunRecoilAmount = 10.5f;
+    public const float pistolRecoilAmount = 5.1f;
     public const float revertAmount = 0.3f;
 
     // PlayerStats

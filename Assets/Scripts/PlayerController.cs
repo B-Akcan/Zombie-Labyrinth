@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     bool gameStopped;
     [SerializeField] DoubleSO sensitivitySO;
     float recoiledDegrees;
+    float recoilAmount;
 
     public bool isGameStopped()
     {
@@ -145,10 +146,15 @@ public class PlayerController : MonoBehaviour
 
     void Recoil()
     {
-        if (Gun.SharedInstance.IsRecoiling() && recoiledDegrees < maxRecoil)
+        AdjustRecoilAmount();
+        
+        if (Gun.SharedInstance.IsRecoiling())
         {
-            look.y += recoilAmount;
-            recoiledDegrees += recoilAmount;
+            if (recoiledDegrees < maxRecoil)
+            {
+                look.y += recoilAmount;
+                recoiledDegrees += recoilAmount;
+            }
         }      
 
         else if (recoiledDegrees > 0)
@@ -156,6 +162,16 @@ public class PlayerController : MonoBehaviour
             look.y -= revertAmount;
             recoiledDegrees -= revertAmount;
             recoiledDegrees = Mathf.Clamp(recoiledDegrees, 0, maxRecoil);
+        }
+    }
+
+    void AdjustRecoilAmount()
+    {
+        switch (Gun.SharedInstance.GetActiveGun())
+        {
+            case ASSAULT: recoilAmount = assaultRecoilAmount; break;
+            case SHOTGUN: recoilAmount = shotgunRecoilAmount; break;
+            case PISTOL: recoilAmount = pistolRecoilAmount; break;
         }
     }
 }

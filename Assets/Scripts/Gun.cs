@@ -133,14 +133,11 @@ public class Gun : MonoBehaviour
     {
         if (currentRounds > 0 && ((selectedGun == assault) ? Input.GetKey(KeyCode.Mouse0) : Input.GetKeyDown(KeyCode.Mouse0)))
         {
-            if (selectedGun == assault)
-                recoiling = true;
-            else
-                recoiling = false;
-
             if (Time.time >= elapsedTime)
             {
                 elapsedTime = Time.time + (1f / fireRate);
+
+                recoiling = true;
 
                 DecrementRounds();
 
@@ -357,6 +354,18 @@ public class Gun : MonoBehaviour
         }
 
         reloading = false;
+    }
+
+    public string GetActiveGun()
+    {
+        if (selectedGun == assault)
+            return ASSAULT;
+        else if (selectedGun == shotgun)
+            return SHOTGUN;
+        else if (selectedGun == pistol)
+            return PISTOL;
+        
+        return "";
     }
 
 }
