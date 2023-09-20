@@ -69,6 +69,7 @@ public class PlayerController : MonoBehaviour
                 CameraControl();
                 Move();
             }
+            
             else
                 StopWalkingSound();
         }
@@ -92,10 +93,7 @@ public class PlayerController : MonoBehaviour
         look.x += Input.GetAxis("Mouse X") * mouseSensitivity;
         look.y += Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-        VerticalRecoil();
-
-        if (canRecoilHorizontally)
-            HorizontalRecoil();
+        Recoil();
 
         look.y = Mathf.Clamp(look.y, -yRotationLimit, yRotationLimit);
 
@@ -149,7 +147,7 @@ public class PlayerController : MonoBehaviour
         UI.SharedInstance.DeactivateGameStoppedUI();
     }
 
-    void VerticalRecoil()
+    void Recoil()
     {   
         if (Gun.SharedInstance.IsRecoiling())
         {
@@ -158,6 +156,9 @@ public class PlayerController : MonoBehaviour
                 look.y += verticalRecoilAmount;
                 recoiledDegrees += verticalRecoilAmount;
             }
+
+            if (canRecoilHorizontally)
+                look.x += Random.Range(-horizontalRecoilAmount, horizontalRecoilAmount);
         }      
 
         else if (recoiledDegrees > 0)
@@ -166,12 +167,6 @@ public class PlayerController : MonoBehaviour
             recoiledDegrees -= revertAmount;
             recoiledDegrees = Mathf.Clamp(recoiledDegrees, 0, maxRecoil);
         }
-    }
-
-    void HorizontalRecoil()
-    {
-        if (Gun.SharedInstance.IsRecoiling())
-            look.x += Random.Range(-horizontalRecoilAmount, horizontalRecoilAmount);
     }
 
     void AdjustRecoilAmount()
