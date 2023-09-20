@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using static TagHolder;
 using static GameParams;
-using System;
 using UnityEditor;
 
 public class PlayerController : MonoBehaviour
@@ -21,7 +20,8 @@ public class PlayerController : MonoBehaviour
     bool gameStopped;
     [SerializeField] DoubleSO sensitivitySO;
     float recoiledDegrees;
-    float recoilAmount;
+    float verticalRecoilAmount;
+    bool canRecoilHorizontally;
 
     public bool isGameStopped()
     {
@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
         mouseSensitivity = (float) sensitivitySO.Value;
 
         recoiledDegrees = 0f;
+        canRecoilHorizontally = true;
     }
 
     void Update()
@@ -61,6 +62,7 @@ public class PlayerController : MonoBehaviour
         if (!PlayerStats.SharedInstance.PlayerIsDead())
         {
             CursorLockUnlock();
+            AdjustRecoilAmount();
 
             if (!gameStopped)
             {
@@ -90,7 +92,10 @@ public class PlayerController : MonoBehaviour
         look.x += Input.GetAxis("Mouse X") * mouseSensitivity;
         look.y += Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-        Recoil();
+        VerticalRecoil();
+
+        if (canRecoilHorizontally)
+            HorizontalRecoil();
 
         look.y = Mathf.Clamp(look.y, -yRotationLimit, yRotationLimit);
 
@@ -144,16 +149,14 @@ public class PlayerController : MonoBehaviour
         UI.SharedInstance.DeactivateGameStoppedUI();
     }
 
-    void Recoil()
-    {
-        AdjustRecoilAmount();
-        
+    void VerticalRecoil()
+    {   
         if (Gun.SharedInstance.IsRecoiling())
         {
             if (recoiledDegrees < maxRecoil)
             {
-                look.y += recoilAmount;
-                recoiledDegrees += recoilAmount;
+                look.y += verticalRecoilAmount;
+                recoiledDegrees += verticalRecoilAmount;
             }
         }      
 
@@ -165,13 +168,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void HorizontalRecoil()
+    {
+        if (Gun.SharedInstance.IsRecoiling())
+            look.x += Random.Range(-horizontalRecoilAmount, horizontalRecoilAmount);
+    }
+
     void AdjustRecoilAmount()
     {
         switch (Gun.SharedInstance.GetActiveGun())
         {
-            case ASSAULT: recoilAmount = assaultRecoilAmount; break;
-            case SHOTGUN: recoilAmount = shotgunRecoilAmount; break;
-            case PISTOL: recoilAmount = pistolRecoilAmount; break;
+            case ASSAULT: verticalRecoilAmount = assaultRecoilAmount; canRecoilHorizontally = true; break;
+            case SHOTGUN: verticalRecoilAmount = shotgunRecoilAmount; canRecoilHorizontally = false; break;
+            case PISTOL: verticalRecoilAmount = pistolRecoilAmount; canRecoilHorizontally = false; break;
         }
     }
 }

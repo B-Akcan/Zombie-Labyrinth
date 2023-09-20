@@ -9,6 +9,7 @@ static class GameParams
     public const float shotgunRecoilAmount = 10.5f;
     public const float pistolRecoilAmount = 5.1f;
     public const float revertAmount = 0.3f;
+    public const float horizontalRecoilAmount = 0.3f;
 
     // PlayerStats
     public const int maxHealth = 100; // used by Enemy script as well
