@@ -1508,6 +1508,7 @@ MonoBehaviour:
   attack2: {fileID: 8300000, guid: 5328fd3fdf326a44f9c5df9b82271206, type: 3}
   dead: {fileID: 8300000, guid: d2341c5c29e62904da23b4852b628e19, type: 3}
   headshot: {fileID: 8300000, guid: a37f44cbf8c2a7443a3c361efa2f233a, type: 3}
+  difficultySO: {fileID: 11400000, guid: 21652f9868ba9c743bc3de314a1543fa, type: 2}
 --- !u!82 &-6824412212039078871
 AudioSource:
   m_ObjectHideFlags: 0

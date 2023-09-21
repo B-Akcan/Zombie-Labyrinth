@@ -38,6 +38,8 @@ public class Enemy : MonoBehaviour
     float volume;
     bool canSpeak;
     bool isAlive;
+    [SerializeField] IntSO difficultySO;
+    int enemyDamage;
 
 
     void Awake()
@@ -50,12 +52,12 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         health = maxHealth;
-        attackDelay = new WaitForSeconds(enemyAttackDuration);
-        dieDelay = new WaitForSeconds(enemyDieDuration);
         canMove = true;
         canSpeak = true;
         isAlive = true;
 
+        attackDelay = new WaitForSeconds(enemyAttackDuration);
+        dieDelay = new WaitForSeconds(enemyDieDuration);
         searchingClips = new List<AudioClip> {searching1, searching2};
         searching1_length = new WaitForSeconds(searching1.length * 2);
         searching2_length = new WaitForSeconds(searching2.length * 2);
@@ -64,6 +66,8 @@ public class Enemy : MonoBehaviour
         attack2_length = new WaitForSeconds(attack2.length * 2);
         dead_length = new WaitForSeconds(dead.length);
         headshot_length = new WaitForSeconds(headshot.length);
+
+        AssignDamage();
     }
 
     void FixedUpdate()
@@ -198,5 +202,15 @@ public class Enemy : MonoBehaviour
         yield return delay;
 
         canSpeak = true;
+    }
+
+    void AssignDamage()
+    {
+        switch (difficultySO.Value)
+        {
+            case 0: enemyDamage = damageEasy; break;
+            case 1: enemyDamage = damageMedium; break;
+            case 2: enemyDamage = damageHard; break;
+        }
     }
 }

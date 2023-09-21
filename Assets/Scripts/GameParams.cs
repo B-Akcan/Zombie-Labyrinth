@@ -29,13 +29,12 @@ static class GameParams
     public const float reloadVolume = 0.5f;
 
     // EnemyPool
-    public const int ep_amountToPool = 100;
+    public const int ep_amountToPool = 50;
     public const float initialEnemySpawnTimer = 5f;
-    public const int scoreMultiplier = 5;
-    public const double difficultyEasy = 0.9;
-    public const double difficultyMedium = 0.7;
-    public const double difficultyHard = 0.5;
-    public const double initialSpawnTime = 5f;
+    public const double spawnTimerEasy = 5;
+    public const double spawnTimerMedium = 2.5;
+    public const double spawnTimerHard = 1.25;
+    public const double initialSpawnTime = 5;
 
     // Enemy
     public const float enemySpeed = 3f;
@@ -43,7 +42,9 @@ static class GameParams
     public const float enemyRange = 2f;
     public const float enemyAttackDuration = 2.479f;
     public const float enemyDieDuration = 1.15f;
-    public const int enemyDamage = 20;
+    public const int damageEasy = 20;
+    public const int damageMedium = 34;
+    public const int damageHard = 50;
     public const float searchingVolume = 0.3f;
     public const float attackVolume = 1f;
     public const float deadVolume = 0.5f;

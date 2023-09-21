@@ -22,7 +22,6 @@ public class EnemyPool : MonoBehaviour
     double enemySpawnTimer;
     double timePassed; // Since last spawn
     int i;
-    double difficulty;
     [SerializeField] IntSO difficultySO;
 
     void Awake()
@@ -43,11 +42,8 @@ public class EnemyPool : MonoBehaviour
         }
 
         i = 0;
-
-        enemySpawnTimer = initialEnemySpawnTimer;
         timePassed = initialSpawnTime;
-        
-        AdjustDifficulty();
+        AssignSpawnTimer();
     }
 
     void Update()
@@ -89,19 +85,13 @@ public class EnemyPool : MonoBehaviour
         return null;
     }
 
-    public void AdjustEnemySpawnTimer()
-    {
-        if (PlayerStats.SharedInstance.GetScore() % scoreMultiplier == 0)
-            enemySpawnTimer *= difficulty;
-    }
-
-    void AdjustDifficulty()
+    void AssignSpawnTimer()
     {
         switch (difficultySO.Value)
         {
-            case 0: difficulty = difficultyEasy; break;
-            case 1: difficulty = difficultyMedium; break;
-            case 2: difficulty = difficultyHard; break;
+            case 0: enemySpawnTimer = spawnTimerEasy; break;
+            case 1: enemySpawnTimer = spawnTimerMedium; break;
+            case 2: enemySpawnTimer = spawnTimerHard; break;
         }
     }
 
