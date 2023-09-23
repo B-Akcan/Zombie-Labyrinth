@@ -32,4 +32,12 @@ static class TagHolder
     public const string BRIGHTNESS = "OptionsMenu/Brightness/Slider";
     public const string SENSITIVITY = "OptionsMenu/Sensitivity/Slider";
     public const string DIFFICULTY = "OptionsMenu/Difficulty/Dropdown";
+    public const string HEALTH_LOOT = "HealthLoot";
+    public const string DAMAGE_LOOT = "DamageLoot";
+    public const string SPEED_LOOT = "SpeedLoot";
+    public const string PLAYER = "Player";
+    public const string DAMAGE_BUFF = "DamageBuff";
+    public const string DB_TIMELEFT = "Time";
+    public const string SPEED_BUFF = "SpeedBuff";
+    public const string SB_TIMELEFT = "Time";
 }

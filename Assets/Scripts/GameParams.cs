@@ -10,6 +10,7 @@ static class GameParams
     public const float pistolRecoilAmount = 5.1f;
     public const float revertAmount = 0.3f;
     public const float horizontalRecoilAmount = 0.3f;
+    public const int speedBuffLifetime = 5; // used by UI script as well
 
     // PlayerStats
     public const int maxHealth = 100; // used by Enemy script as well
@@ -27,6 +28,8 @@ static class GameParams
     public const float pistolReloadDuration = 1.7f;
     public const float shootVolume = 0.3f;
     public const float reloadVolume = 0.5f;
+    public const int damageBuffLifetime = 5; // used by UI script as well
+    public const int buffedDamage = 100;
 
     // EnemyPool
     public const int ep_amountToPool = 50;
@@ -57,4 +60,8 @@ static class GameParams
     // BloodSprayPool
     public const int bsp_amountToPool = 50;
     public const float bloodSprayDelay = 0.5f;
+
+    // Loot
+    public const int healthAmount = 20;
+    public const int speedMultiplier = 2;
 }

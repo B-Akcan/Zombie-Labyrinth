@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     float recoiledDegrees;
     float verticalRecoilAmount;
     bool canRecoilHorizontally;
+    int speedMultiplier;
+    WaitForSeconds speedBuffDelay;
 
     public bool isGameStopped()
     {
@@ -55,6 +57,8 @@ public class PlayerController : MonoBehaviour
 
         recoiledDegrees = 0f;
         canRecoilHorizontally = true;
+        speedMultiplier = 1;
+        speedBuffDelay = new WaitForSeconds(speedBuffLifetime);
     }
 
     void Update()
@@ -125,7 +129,7 @@ public class PlayerController : MonoBehaviour
             isPlayingSound = false;
         }
 
-        controller.Move(input * speed * Time.deltaTime);
+        controller.Move(input * speed * Time.deltaTime * speedMultiplier);
     }
 
     public void StopWalkingSound()
@@ -177,5 +181,20 @@ public class PlayerController : MonoBehaviour
             case SHOTGUN: verticalRecoilAmount = shotgunRecoilAmount; canRecoilHorizontally = false; break;
             case PISTOL: verticalRecoilAmount = pistolRecoilAmount; canRecoilHorizontally = false; break;
         }
+    }
+
+    public void MultiplySpeed(int multiplier)
+    {
+        speedMultiplier = multiplier;
+        UI.SharedInstance.SpeedBuffUI();
+
+        StartCoroutine(WaitSpeedBuff());
+    }
+
+    IEnumerator WaitSpeedBuff()
+    {
+        yield return speedBuffDelay;
+
+        speedMultiplier = 1;
     }
 }

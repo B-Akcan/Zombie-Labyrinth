@@ -49,6 +49,8 @@ public class Gun : MonoBehaviour
     Enemy enemy;
     GameObject hitObject;
     bool recoiling;
+    WaitForSeconds damageBuffDelay;
+    bool damageBuffActive;
 
     public bool IsRecoiling()
     {
@@ -76,20 +78,27 @@ public class Gun : MonoBehaviour
     
     void Start()
     {
-        AssignReloadDelays();
+        AssignDelays();
         LoadAllGuns();
         SelectAssault();
 
         recoiling = false;
+        damageBuffActive = false;
     }
 
     void Update()
     {
+        if (damageBuffActive)
+        {
+            damage = buffedDamage;
+            headshotDamage = buffedDamage;
+        }
+
         if (!PlayerStats.SharedInstance.PlayerIsDead() && !PlayerController.SharedInstance.isGameStopped() && !reloading)
         {
             GunSelect();
             Fire();
-        } 
+        }
     }
 
     void GunSelect()
@@ -193,12 +202,14 @@ public class Gun : MonoBehaviour
         }
     }
 
-    void AssignReloadDelays()
+    void AssignDelays()
     {
         reloading = false;
         reloadDelayAssault = new WaitForSeconds(assaultReloadDuration);
         reloadDelayShotgun = new WaitForSeconds(shotgunReloadDuration);
         reloadDelayPistol = new WaitForSeconds(pistolReloadDuration);
+
+        damageBuffDelay = new WaitForSeconds(damageBuffLifetime);
     }
 
     void SelectAssault()
@@ -368,4 +379,26 @@ public class Gun : MonoBehaviour
         return "";
     }
 
+    public void BuffDamage()
+    {
+        damageBuffActive = true;
+        UI.SharedInstance.DamageBuffUI();
+
+        StartCoroutine(WaitDamageBuff());
+    }
+
+    IEnumerator WaitDamageBuff()
+    {
+        yield return damageBuffDelay;
+
+        damageBuffActive = false;
+
+        switch (GetActiveGun())
+        {
+            case ASSAULT: damage = (int) Damage.ASSAULT; headshotDamage = (int) HeadshotDamage.ASSAULT; break;
+            case SHOTGUN: damage = (int) Damage.SHOTGUN; headshotDamage = (int) HeadshotDamage.SHOTGUN; break;
+            case PISTOL: damage = (int) Damage.PISTOL; headshotDamage = (int) HeadshotDamage.PISTOL; break;
+        }
+    }
 }
+

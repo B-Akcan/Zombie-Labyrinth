@@ -30,6 +30,14 @@ public class UI : MonoBehaviour
     GameObject reloadWarning;
     GameObject endGame;
     GameObject stopGame;
+    GameObject damageBuff;
+    TMP_Text damageBuffTimeLeft;
+    float db_timeLeft;
+    WaitForSeconds damageBuffDelay;
+    GameObject speedBuff;
+    TMP_Text speedBuffTimeLeft;
+    float sb_timeLeft;
+    WaitForSeconds speedBuffDelay;
     [SerializeField] IntSO screenModeSO;
 
     void Awake()
@@ -55,6 +63,11 @@ public class UI : MonoBehaviour
         crosshair_pstl = crosshairs.transform.Find(CROSSHAIR_PISTOL).gameObject;
 
         scorePosition = score.GetComponent<RectTransform>();
+
+        damageBuff = transform.Find(DAMAGE_BUFF).gameObject;
+        damageBuffTimeLeft = damageBuff.transform.Find(DB_TIMELEFT).gameObject.GetComponent<TMP_Text>();
+        speedBuff = transform.Find(SPEED_BUFF).gameObject;
+        speedBuffTimeLeft = speedBuff.transform.Find(SB_TIMELEFT).gameObject.GetComponent<TMP_Text>();
     }
 
     void Start()
@@ -63,8 +76,19 @@ public class UI : MonoBehaviour
         scorePositionEndGame = new Vector3(35, 20, 0);
         scorePosition.anchoredPosition = scorePositionInGame;
 
+        damageBuffDelay = new WaitForSeconds(damageBuffLifetime);
+        speedBuffDelay = new WaitForSeconds(speedBuffLifetime);
+
+        db_timeLeft = damageBuffLifetime;
+        sb_timeLeft = speedBuffLifetime;
+
         ActivateInitialUI();
         AdjustScreenMode();
+    }
+
+    void Update()
+    {
+        BuffCountdown();
     }
 
     public void SetHealthBar(int health)
@@ -132,6 +156,8 @@ public class UI : MonoBehaviour
         reloadWarning.SetActive(false);
         endGame.SetActive(false);
         stopGame.SetActive(false);
+        damageBuff.SetActive(false);
+        speedBuff.SetActive(false);
     }
 
     public void ActivateGameStoppedUI()
@@ -156,8 +182,39 @@ public class UI : MonoBehaviour
         reloadWarning.SetActive(false);
         endGame.SetActive(true);
         stopGame.SetActive(false);
+        damageBuff.SetActive(false);
+        speedBuff.SetActive(false);
 
         scorePosition.anchoredPosition = scorePositionEndGame;
+    }
+
+    public void DamageBuffUI()
+    {
+        damageBuff.SetActive(true);
+
+        StartCoroutine(WaitDamageBuff());
+    }
+
+    public void SpeedBuffUI()
+    {
+        speedBuff.SetActive(true);
+
+        StartCoroutine(WaitSpeedBuff());
+    }
+
+    void BuffCountdown()
+    {
+        if (damageBuff.activeInHierarchy)
+        {  
+            db_timeLeft -= Time.deltaTime;
+            damageBuffTimeLeft.text = db_timeLeft.ToString("n2") + "s";
+        }
+
+        if (speedBuff.activeInHierarchy)
+        {
+            sb_timeLeft -= Time.deltaTime;
+            speedBuffTimeLeft.text = sb_timeLeft.ToString("n2") + "s";
+        }
     }
 
     public void PlayAgain()
@@ -182,5 +239,21 @@ public class UI : MonoBehaviour
     public void Resume()
     {
         PlayerController.SharedInstance.ResumeGame();
+    }
+
+    IEnumerator WaitDamageBuff()
+    {
+        yield return damageBuffDelay;
+
+        damageBuff.SetActive(false);
+        db_timeLeft = damageBuffLifetime;
+    }
+
+    IEnumerator WaitSpeedBuff()
+    {
+        yield return speedBuffDelay;
+
+        speedBuff.SetActive(false);
+        sb_timeLeft = speedBuffLifetime;
     }
 }

@@ -7,6 +7,9 @@ TagManager:
   - Enemy
   - Environment
   - Bottom
+  - HealthLoot
+  - DamageLoot
+  - SpeedLoot
   layers:
   - Default
   - TransparentFX

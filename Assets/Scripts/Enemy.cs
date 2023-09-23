@@ -172,7 +172,7 @@ public class Enemy : MonoBehaviour
 
         PlayClip(dead);
             
-        PlayerStats.SharedInstance.IncrementScore();
+        PlayerStats.SharedInstance.IncreaseScore();
 
         animator.SetBool(IS_DEAD, true);
         StartCoroutine(WaitDie());
@@ -195,6 +195,8 @@ public class Enemy : MonoBehaviour
         canMove = true;
         canSpeak = true;
         isAlive = true;
+
+        LootPool.SharedInstance.DropLoot(transform.position);
     }
 
     IEnumerator WaitSound(WaitForSeconds delay)

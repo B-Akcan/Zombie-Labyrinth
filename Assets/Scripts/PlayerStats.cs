@@ -44,10 +44,17 @@ public class PlayerStats : MonoBehaviour
         isDead = false;
     }
 
-    public void IncrementScore()
+    public void IncreaseScore()
     {
         score++;
         UI.SharedInstance.SetScoreCount(score);
+    }
+
+    public void IncreaseHealth(int amount)
+    {
+        health += amount;
+        health = Mathf.Clamp(health, 0, 100);
+        UI.SharedInstance.SetHealthBar(health);
     }
 
     public void TakeDamage(int damage)
